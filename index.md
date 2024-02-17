@@ -12,10 +12,18 @@ The best way to learn is to teach, and boy is there a lot of math and physics I 
 
 This is mainly just to deepen my own understanding, but if you've stumbled upon this site and happen to like math and physics, I hope there lies something of value here for you too!
 
+#### Notes
+I'll also be posting my lecture notes in the 'Notes and Papers' section. My classes for the Spring '24 Semester are:
+- Physics 112: Statistical Mechanics
+- Physics 137B: Quantum Mechanics II
+- Math 185: Complex Analysis
+- Math 214: Differential Topology
+
+
 ### Current interests
 As far as math goes, I'd say I'm quite algebra-pilled :tm: . I'm currently learning Topology (differential and algebraic), so any reading recommendations would be super appreciated!
 
-## Contact
+### Contact
 If you'd like to point out any foolish flaws in any of my writing, or just chat about math/physics, please contact me at kdeoskar [at] berkeley [dot] edu.
 
 
@@ -176,7 +184,7 @@ Marine iguanas are **truly splendid** creatures. They're not found in equations 
 ~~~
 <div style="clear: both"></div>
 ~~~ -->
-@@
+<!-- @@ -->
 
 <!-- ## Pages and structure
 
