@@ -1,14 +1,30 @@
-@def title = "Franklin Example"
+@def title = "About | kdeoskar"
 @def tags = ["syntax", "code"]
 
-# How to use Franklin
+<!-- \tableofcontents  -->
 
-\tableofcontents <!-- you can use \toc as well -->
+## Hi! I'm Keshav 
 
+I'm a second year undergraduate student at UC Berkeley. 
+
+### What is this page? 
+The best way to learn is to teach, and boy is there a lot of math and physics I want to learn. This page is primarily going to be where I store write-ups and expository papers on concepts/calculations I find cool. 
+
+
+This is mainly just to deepen my own understanding, but if you've stumbled upon this site and happen to like math and physics, I hope there lies something of value here for you too!
+
+### Contact
+If you'd like to point out any foolish flaws in any of my writing, or just chat about math/physics, please contact me at kdeoskar [at] berkeley [dot] edu.
+
+
+<!-- # How to use Franklin -->
+
+<!-- \tableofcontents you can use \toc as well -->
+<!-- 
 This section is meant as a refresher if you're new to Franklin.
 Have a look at both how the website renders and the corresponding markdown (`index.md`).
-Modify at will to get a feeling for how things work!
-
+Modify at will to get a feeling for how things work! -->
+<!-- 
 Ps: if you want to modify the header or footer or the general look of the website, adjust the files in
 * `src/_css/` and
 * `src/_html_parts/`.
@@ -18,9 +34,9 @@ Ps: if you want to modify the header or footer or the general look of the websit
 The [standard markdown syntax](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) can be used such as titles using `#`, lists:
 
 * element with **bold**
-* element with _emph_
+* element with _emph_ -->
 
-or code-blocks `inline` or with highlighting (note the `@def hascode = true` in the source to allow [highlight.js](https://highlightjs.org/) to do its job):
+<!-- or code-blocks `inline` or with highlighting (note the `@def hascode = true` in the source to allow [highlight.js](https://highlightjs.org/) to do its job):
 
 ```julia
 abstract type Point end
@@ -46,9 +62,9 @@ or have tables:
 
 | English         | Mandarin   |
 | --------------- | ---------- |
-| winnie the pooh | 维尼熊      |
+| winnie the pooh | 维尼熊      | -->
 
-Note that you may have to do a bit of CSS-styling to get these elements to look the way you want them (the same holds for the whole page in fact).
+<!-- Note that you may have to do a bit of CSS-styling to get these elements to look the way you want them (the same holds for the whole page in fact).
 
 ### Symbols and html entities
 
@@ -61,9 +77,9 @@ If you want to show a backtick, escape it like so: \` and if you want to show a 
 Footnotes are nice too:
 
 [^1]: this is the text for the first footnote, you can style all this looking at `.fndef` elements; note that the whole footnote definition is _expected to be on the same line_.
-[^blah]: and this is a longer footnote with some blah from veggie ipsum: turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi amaranth water spinach avocado daikon napa cabbage asparagus winter purslane kale. Celery potato scallion desert raisin horseradish spinach carrot soko.
+[^blah]: and this is a longer footnote with some blah from veggie ipsum: turnip greens yarrow ricebean rutabaga endive cauliflower sea lettuce kohlrabi amaranth water spinach avocado daikon napa cabbage asparagus winter purslane kale. Celery potato scallion desert raisin horseradish spinach carrot soko. -->
 
-## Basic Franklin extensions
+<!-- ## Basic Franklin extensions
 
 ### Divs
 
@@ -83,8 +99,8 @@ Essentially three things are imitated from LaTeX
 
 1. you can introduce definitions using `\newcommand`
 1. you can use hyper-references with `\eqref`, `\cite`, ...
-1. you can show nice maths (via KaTeX)
-
+1. you can show nice maths (via KaTeX) -->
+<!-- 
 The definitions can be introduced in the page or in the `config.md` (in which case they're available everywhere as opposed to just in that page).
 For instance, the commands `\scal` and `\R` are defined in the config file (see `src/config.md`) and can directly be used whereas the command `\E` is defined below (and therefore only available on this page):
 
@@ -100,9 +116,10 @@ In a similar vein you can cite references that would be at the bottom of the pag
 
 **Note**: the LaTeX commands you define can also incorporate standard markdown (though not in a math environment) so for instance let's define a silly `\bolditalic` command.
 
-\newcommand{\bolditalic}[1]{_**!#1**_} <!--_ ignore this comment, it helps atom to not get confused by the trailing underscore when highlighting the code but is not necessary.-->
+\newcommand{\bolditalic}[1]{_**!#1**_}  -->
+<!--_ ignore this comment, it helps atom to not get confused by the trailing underscore when highlighting the code but is not necessary.-->
 
-and use it \bolditalic{here for example}.
+<!-- and use it \bolditalic{here for example}.
 
 Here's another quick one, a command to change the color:
 
@@ -116,9 +133,9 @@ For most commands you will use `#k` to refer to the $k$-th argument as in LaTeX.
 In order to reduce headaches, this forcibly introduces a whitespace on the left of whatever is inserted which, usually, changes nothing visible (e.g. in a math settings).
 However there _may be_ situations where you do not want this to happen and you know that the insertion will not clash with anything else.
 In that case, you should simply use `!#k` which will not introduce that whitespace.
-It's probably easier to see this in action:
+It's probably easier to see this in action: -->
 
-\newcommand{\pathwith}[1]{`/usr/local/bin/#1`}
+<!-- \newcommand{\pathwith}[1]{`/usr/local/bin/#1`}
 \newcommand{\pathwithout}[1]{`/usr/local/bin/!#1`}
 
 * with: \pathwith{script.jl}, there's a whitespace you don't want 🚫
@@ -128,9 +145,9 @@ It's probably easier to see this in action:
 
 You can include raw HTML by just surrounding a block with `~~~`.
 Not much more to add.
-This may be useful for local custom layouts like having a photo next to a text in a specific way.
+This may be useful for local custom layouts like having a photo next to a text in a specific way. -->
 
-~~~
+<!-- ~~~
 <div class="row">
   <div class="container">
     <img class="left" src="/assets/rndimg.jpg">
@@ -143,23 +160,23 @@ This may be useful for local custom layouts like having a photo next to a text i
     <div style="clear: both"></div>      
   </div>
 </div>
-~~~
-
+~~~ -->
+<!-- 
 **Note 1**: again, entire such blocks can be made into latex-like commands via `\newcommand{\mynewblock}[1]{...}`.
 
-**Note 2**: whatever is in a raw HTML block is *not* further processed (so you can't have LaTeX in there for instance). A partial way around this is to use `@@...` blocks which *will* be recursively parsed. The following code gives the same result as above with the small difference that there is LaTeX being processed in the inner div.
+**Note 2**: whatever is in a raw HTML block is *not* further processed (so you can't have LaTeX in there for instance). A partial way around this is to use `@@...` blocks which *will* be recursively parsed. The following code gives the same result as above with the small difference that there is LaTeX being processed in the inner div. -->
 
-@@row
+<!-- @@row
 @@container
 @@left ![](/assets/rndimg.jpg) @@
 @@
 Marine iguanas are **truly splendid** creatures. They're not found in equations like $\exp(-i\pi)+1$. But they're still quite cool.
 ~~~
 <div style="clear: both"></div>
-~~~
+~~~ -->
 @@
 
-## Pages and structure
+<!-- ## Pages and structure
 
 Here are a few empty pages connecting to the menu links to show where files can go and the resulting paths. (It's probably best if you look at the source folder for this).
 
@@ -170,9 +187,9 @@ Here are a few empty pages connecting to the menu links to show where files can 
 ## References (not really)
 
 * \biblabel{noether15}{Noether (1915)} **Noether**,  Körper und Systeme rationaler Funktionen, 1915.
-* \biblabel{bezanson17}{Bezanson et al. (2017)} **Bezanson**, **Edelman**, **Karpinski** and **Shah**, [Julia: a fresh approach to numerical computing](https://julialang.org/research/julia-fresh-approach-BEKS.pdf), SIAM review 2017.
+* \biblabel{bezanson17}{Bezanson et al. (2017)} **Bezanson**, **Edelman**, **Karpinski** and **Shah**, [Julia: a fresh approach to numerical computing](https://julialang.org/research/julia-fresh-approach-BEKS.pdf), SIAM review 2017. -->
 
-## Header and Footer
+<!-- ## Header and Footer
 
 As you can see here at the bottom of the page, there is a footer which you may want on all pages but for instance you may want the date of last modification to be displayed.
 In a fashion heavily inspired by [Hugo](https://gohugo.io), you can write things like
@@ -184,4 +201,4 @@ Last modified: {{ fill fd_mtime }}.
 (cf. `src/_html_parts/page_foot.html`) which will then replace these braces with the content of a dictionary of variables at the key `fd_mtime`.
 This dictionary of variables is accessed locally by pages through `@def varname = value` and globally through the `config.md` page via the same syntax.
 
-There's a few other such functions of the form `{{fname p₁ p₂}}` as well as support for conditional blocks. If you wander through the `src/_html_parts/` folder and its content, you should be able to see those in action.
+There's a few other such functions of the form `{{fname p₁ p₂}}` as well as support for conditional blocks. If you wander through the `src/_html_parts/` folder and its content, you should be able to see those in action. -->
