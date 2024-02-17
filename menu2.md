@@ -1,5 +1,5 @@
 +++
-title = "More goodies"
+title = "Notes and Papers"
 hascode = true
 rss = "A short description of the page which would serve as **blurb** in a `RSS` feed; you can use basic markdown here but the whole description string must be a single line (not a multiline string). Like this one for instance. Keep in mind that styling is minimal in RSS so for instance don't expect maths or fancy styling to work; images should be ok though: ![](https://upload.wikimedia.org/wikipedia/en/b/b0/Rick_and_Morty_characters.jpg)"
 rss_title = "More goodies"
@@ -8,6 +8,11 @@ rss_pubdate = Date(2019, 5, 1)
 tags = ["syntax", "code", "image"]
 +++
 
+\toc
+
+### Under construction
+
+<!-- 
 # More goodies
 
 \toc
@@ -126,4 +131,4 @@ end
 
 You can call the above with `\baz{some string}`: \baz{some string}.
 
-**Note**: the output **will be** reprocessed by Franklin, if you want to avoid this, then escape the output by using `return "~~~" * s * "~~~"` and it will be plugged  in as is in the HTML.
+**Note**: the output **will be** reprocessed by Franklin, if you want to avoid this, then escape the output by using `return "~~~" * s * "~~~"` and it will be plugged  in as is in the HTML. -->

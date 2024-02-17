@@ -3,17 +3,19 @@
 
 <!-- \tableofcontents  -->
 
-## Hi! I'm Keshav 
+## Hi! 
 
-I'm a second year undergraduate student at UC Berkeley. 
+My name is Keshav. I'm a second year undergraduate student at UC Berkeley. 
 
-### What is this page? 
+## What is this page? 
 The best way to learn is to teach, and boy is there a lot of math and physics I want to learn. This page is primarily going to be where I store write-ups and expository papers on concepts/calculations I find cool. 
-
 
 This is mainly just to deepen my own understanding, but if you've stumbled upon this site and happen to like math and physics, I hope there lies something of value here for you too!
 
-### Contact
+### Current interests
+As far as math goes, I'd say I'm quite algebra-pilled :tm: . I'm currently learning Topology (differential and algebraic), so any reading recommendations would be super appreciated!
+
+## Contact
 If you'd like to point out any foolish flaws in any of my writing, or just chat about math/physics, please contact me at kdeoskar [at] berkeley [dot] edu.
 
 
