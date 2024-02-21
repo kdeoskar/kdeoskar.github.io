@@ -7,11 +7,14 @@ rss = "A short description of the page which would serve as **blurb** in a `RSS`
 tags = ["syntax", "code"]
 +++
 
-\toc 
 
-### Topological Phases of Matter
+# Exp (lana | osi) tions
+[Under Construction]
 
-Trying out a [plain link](/top_phase/)
+
+1. [Topological Phases of Matter](/top_phase/)
+2. Renormalization Group
+3. Tensor Networks
 
 
 

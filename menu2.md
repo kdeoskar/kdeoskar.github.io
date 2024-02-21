@@ -8,9 +8,9 @@ rss_pubdate = Date(2019, 5, 1)
 tags = ["syntax", "code", "image"]
 +++
 
-\toc
 
-### Under construction
+### Notes 
+[I'll make this section nicer soon. For now, all of my notes can be found [here](https://github.com/kdeoskar/notes) ]
 
 <!-- 
 # More goodies

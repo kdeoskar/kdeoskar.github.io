@@ -23,4 +23,5 @@ $$ \mathcal{H} = \sum_{i} \mathcal{Z}_i \otimes \mathcal{Z}_{i+1} + g X_i $$
 
 ### References
 - Topological Phases of Matter, Joel Moore
+- David Tong, Statistical Field Theory notes
 - Vibhu Ravindran, Physics 198 
