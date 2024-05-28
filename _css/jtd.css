@@ -101,7 +101,8 @@ p {
 }
 
 a {
-  color: #0e39b0;
+  /* color: #0e39b0; */
+  color: hsl(273, 100%, 72%);
   text-decoration: none;
 }
 

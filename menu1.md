@@ -8,8 +8,8 @@ tags = ["syntax", "code"]
 +++
 
 
-# Exp (lana | osi) tions
-[Under Construction]
+# Short Expos
+Short write-ups on interesting things I'm currently learning.
 
 
 1. [Topological Phases of Matter](/top_phase/)

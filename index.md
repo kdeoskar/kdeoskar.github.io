@@ -8,23 +8,15 @@
 My name is Keshav. I'm a second year undergraduate student at UC Berkeley. 
 
 #### What is this page? 
-The best way to learn is to teach, and boy is there a lot of math and physics I want to learn. This page is primarily going to be where I store write-ups and expository papers on concepts/calculations I find cool. 
+The best way to learn is to teach; and there is a lot I want to learn. Hence this page.
 
-This is mainly just to deepen my own understanding, but if you've stumbled upon this site and happen to like math and physics, I hope there lies something of value here for you too!
-
-#### Notes
-I've benefitted greatly from notes people have posted on their personal sites so I'll also be posting my lecture notes for my classes. This semester, I'm taking 
-- Statistical Mechanics
-- Quantum Mechanics II
-- Complex Analysis
-- Differential Topology
 
 <!-- 
 #### Current interests
 As far as math goes, I'd say I'm quite algebra-pilled :tm:. -->
 
 ### Contact
-If you'd like to point out any foolish flaws in any of my writing, or just chat about math/physics, please contact me at kdeoskar [at] berkeley [dot] edu.
+If you spot any errors / opportunities to improve upon any exposition here, or just chat about math/physics, please contact me at kdeoskar [at] berkeley [dot] edu.
 
 
 <!-- # How to use Franklin -->
