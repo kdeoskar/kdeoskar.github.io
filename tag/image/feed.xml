@@ -9,14 +9,14 @@
 
   <channel>
     <title>
-      <![CDATA[  Franklin Template  ]]>
+      <![CDATA[  kdeoskar.github.io  ]]>
     </title>
-    <link> https://tlienart.github.io/FranklinTemplates.jl/ </link>
+    <link> https://kdeoskar.github.io/ </link>
     <description>
-      <![CDATA[  Example website using Franklin  ]]>
+      <![CDATA[  homepage  ]]>
     </description>
     <atom:link
-      href="https://tlienart.github.io/FranklinTemplates.jl/feed.xml"
+      href="https://kdeoskar.github.io/feed.xml"
       rel="self"
       type="application/rss+xml" />
 
@@ -35,7 +35,7 @@
   
   
   <atom:author>
-    <atom:name>Septimia Zenobia</atom:name>
+    <atom:name>Keshav Balwant Deoskar</atom:name>
   </atom:author>
         
 </item>
