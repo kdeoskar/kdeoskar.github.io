@@ -31,4 +31,10 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
 </url>
+<url>
+    <loc>https://kdeoskar.github.io/menu3%20copy/index.html</loc>
+    <lastmod>2024-06-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+</url>
 </urlset>
