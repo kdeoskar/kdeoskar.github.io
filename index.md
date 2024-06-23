@@ -16,3 +16,9 @@ kdeoskar [at] berkeley [dot] edu
 @@
 
 # How to Navigate the site
+Articles are linked below. Also, each article has a collection of tags; you can go to the "Tags" page to see a list of pages sorted according to their tags.
+
+# Articles
+
+
+# Expository Papers
