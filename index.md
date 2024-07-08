@@ -19,6 +19,7 @@ kdeoskar [at] berkeley [dot] edu
 Articles are linked below. Also, each article has a collection of tags; you can go to the "Tags" page to see a list of pages sorted according to their tags.
 
 # Articles
+- [Pontryagin Duality](PontryaginDuality)
 
 
 # Expository Papers
