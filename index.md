@@ -2,7 +2,7 @@
 @def tags = ["syntax", "code"]
 
 # Who am I?
-I'm an undergrad studying Engineering Physics + Math major at UC Berkeley.
+My name is Keshav. I'm an undergrad studying Engineering Physics + Math major at UC Berkeley.
 
 # What is this page? 
 There's much I want to learn, and the best way to learn is to teach... or at least to explain!
@@ -19,7 +19,11 @@ kdeoskar [at] berkeley [dot] edu
 Articles are linked below. Also, each article has a collection of tags; you can go to the "Tags" page to see a list of pages sorted according to their tags.
 
 # Articles
-- [Pontryagin Duality](PontryaginDuality)
+- [Pontryagin Duality, Fourier Theory, and Brillouin Zones](PontryaginDuality)
+- [Representation Theory, Lorentz and Poincare Groups]
 
 
 # Expository Papers
+
+# Other Notes
+- [Physics 105: Analytical Mechanics Notes (Summer' 24)](https://github.com/kdeoskar/notes/blob/main/Physics%20105/Notes.pdf) (Under construction)
