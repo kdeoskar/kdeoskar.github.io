@@ -47,7 +47,7 @@ I attempt to explain concepts in $\leq$ 100 words. Inaccuracies and mistakes are
 ### Random unorganized notes
 - [Various instances of topology in Physics](top_in_phys)
 
-### Some Stack.Exchange Posts I've found helpful:
+### Some Stack.Exchange/Overflow Posts I've found helpful:
 - [What is a strongly correlated system in Condensed Matter Physics?](https://physics.stackexchange.com/questions/271061/what-is-a-strongly-correlated-system-in-condensed-matter-physics)
 - [Topological Charge - what is it physically?](https://physics.stackexchange.com/questions/55204/topological-charge-what-is-it-physically)
 - [How do non-abelian anyons arise in solid-state systems?](https://physics.stackexchange.com/questions/5029/how-non-abelian-anyons-arise-in-solid-state-systems?noredirect=1&lq=1)
@@ -63,6 +63,11 @@ I attempt to explain concepts in $\leq$ 100 words. Inaccuracies and mistakes are
 - [How to comute homotopy classes of maps on the 2-torus](https://math.stackexchange.com/questions/36488/how-to-compute-homotopy-classes-of-maps-on-the-2-torus)
 - [Why can interactions be neglected for the Integer Quantum Hall Effect?](https://physics.stackexchange.com/questions/87466/why-can-interactions-be-neglected-for-the-integer-quantum-hall-effect)
 - [What is the difference between cellular, simplicial, and singular homology and their simplices?](https://math.stackexchange.com/questions/4500541/what-is-the-difference-between-cellular-simplicial-and-singular-homology-and-th)
+- [Definition of the Hessian as a Bilinear Form on the Tangent Space](https://math.stackexchange.com/questions/1016764/definition-of-the-hessian-as-a-bilinear-functional-on-the-tangent-space)
+- [What is Torsion in Differential Geometry, intuitively?](https://mathoverflow.net/questions/20493/what-is-torsion-in-differential-geometry-intuitively)
+- [Short exact sequences every mathematician should know](https://mathoverflow.net/questions/363720/short-exact-sequences-every-mathematician-should-know)
+- [What does it mean for a Hamiltonian or system to be Gapped or Gapless?](https://physics.stackexchange.com/questions/4930/what-does-it-mean-for-a-hamiltonian-or-system-to-be-gapped-or-gapless)
+
 
 ### Other sites/articles I've liked or found helpful:
 
