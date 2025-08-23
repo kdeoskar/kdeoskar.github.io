@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Keshav Deoskar</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="main-box" class="box">
+    <h1>Welcome to my homepage!</h1>
+    <p>My name is Keshav. I plan to use this page to host random notes, papers, project, and silly stuff!</p>
+    <p><a href="#" id="photo-link">Click here for a photo of me</a></p>
+    <div class="icon-grid">
+      <div class="icon" data-page="work.html">
+        <img src="assets/icons/folder.png" alt="Files">
+        <p>Files</p>
+      </div>
+      <div class="icon" data-page="about.html">
+        <img src="assets/icons/question-mark.png" alt="About">
+        <p>About</p>
+      </div>
+      <div class="icon" data-page="contact.html">
+        <img src="assets/icons/telephone.png" alt="Contact">
+        <p>Contact</p>
+      </div>
+      <div class="icon" data-page="friends.html">
+        <img src="assets/icons/multiple-users-silhouette.png" alt="Friends">
+        <p>Friends</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dynamic windows will be injected here -->
+  <div id="window-container"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
