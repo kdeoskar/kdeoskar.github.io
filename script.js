@@ -9,46 +9,54 @@ function getSpawnPosition(icon) {
   const iconCenterX = rect.left + rect.width / 2;
   const iconCenterY = rect.top + rect.height / 2;
 
-  let dx = 0, dy = 0;
   const offset = 60;
-
-  dx = iconCenterX < centerX ? -offset : offset;
-  dy = iconCenterY < centerY ? -offset : offset;
+  const dx = iconCenterX < centerX ? -offset : offset;
+  const dy = iconCenterY < centerY ? -offset : offset;
 
   return { dx, dy };
 }
 
-// make a draggable window
+// Make a window draggable (mouse + touch via Pointer Events)
 function makeDraggable(win) {
+  const handle = win.querySelector(".title-bar"); // drag from title bar (better UX on touch)
   let isDragging = false;
-  let offsetX, offsetY;
+  let offsetX = 0, offsetY = 0;
 
-  win.addEventListener("mousedown", (e) => {
-    if (e.target.classList.contains("close-btn")) return;
+  function onPointerDown(e) {
+    // ignore clicks on close button
+    if (e.target.closest(".close-btn")) return;
+
+    // Only start dragging if started on the title bar
+    if (!e.target.closest(".title-bar")) return;
 
     isDragging = true;
-    win.classList.add("dragging");
-
     const rect = win.getBoundingClientRect();
     offsetX = e.clientX - rect.left;
     offsetY = e.clientY - rect.top;
 
     // bring to front
-    win.style.zIndex = Date.now();
-  });
+    win.style.zIndex = String(Date.now());
 
-  document.addEventListener("mousemove", (e) => {
+    // capture pointer so moves keep firing even if the pointer leaves the element
+    try { win.setPointerCapture(e.pointerId); } catch (_) {}
+  }
+
+  function onPointerMove(e) {
     if (!isDragging) return;
     win.style.left = (e.clientX - offsetX) + "px";
     win.style.top = (e.clientY - offsetY) + "px";
-  });
+  }
 
-  document.addEventListener("mouseup", () => {
-    if (isDragging) {
-      isDragging = false;
-      win.classList.remove("dragging");
-    }
-  });
+  function onPointerUp(e) {
+    if (!isDragging) return;
+    isDragging = false;
+    try { win.releasePointerCapture(e.pointerId); } catch (_) {}
+  }
+
+  // Attach on the window so we keep receiving move/up while captured
+  win.addEventListener("pointerdown", onPointerDown);
+  win.addEventListener("pointermove", onPointerMove);
+  win.addEventListener("pointerup", onPointerUp);
 }
 
 // function to create a new window
@@ -82,17 +90,17 @@ async function createWindow({ title, page, icon = null, isImage = false }) {
     }
   }
 
-  // Position with offset
+  // Position with offset relative to the main center
   const { dx, dy } = getSpawnPosition(icon);
   win.style.left = `calc(50% + ${dx}px)`;
-  win.style.top = `calc(50% + ${dy}px)`;
+  win.style.top  = `calc(50% + ${dy}px)`;
 
   // Close button
   win.querySelector(".close-btn").addEventListener("click", () => {
     win.remove();
   });
 
-  // Draggable
+  // Draggable (mouse + touch)
   makeDraggable(win);
 }
 
@@ -100,17 +108,20 @@ async function createWindow({ title, page, icon = null, isImage = false }) {
 document.querySelectorAll(".icon").forEach(icon => {
   icon.addEventListener("click", () => {
     const page = icon.dataset.page;
-    const label = icon.querySelector("p").innerText;
+    const label = icon.querySelector("p") ? icon.querySelector("p").innerText : page;
     createWindow({ title: label, page, icon });
   });
 });
 
 // attach to photo link
-document.getElementById("photo-link").addEventListener("click", (e) => {
-  e.preventDefault();
-  createWindow({
-    title: "Hangin' w the Dolphins",
-    page: "assets/me.JPG",  // <-- put your photo in assets/
-    isImage: true
+const photoLink = document.getElementById("photo-link");
+if (photoLink) {
+  photoLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    createWindow({
+      title: "My Photo",
+      page: "assets/me.jpg",  // <-- put your photo in assets/
+      isImage: true
+    });
   });
-});
+}
