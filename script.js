@@ -119,8 +119,8 @@ if (photoLink) {
   photoLink.addEventListener("click", (e) => {
     e.preventDefault();
     createWindow({
-      title: "My Photo",
-      page: "assets/me.jpg",  // <-- put your photo in assets/
+      title: "Hangin' with the Dolphins",
+      page: "assets/me.JPG",  // <-- put your photo in assets/
       isImage: true
     });
   });
