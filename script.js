@@ -110,7 +110,7 @@ document.getElementById("photo-link").addEventListener("click", (e) => {
   e.preventDefault();
   createWindow({
     title: "Hangin' w the Dolphins",
-    page: "assets/me.jpg",  // <-- put your photo in assets/
+    page: "assets/me.JPG",  // <-- put your photo in assets/
     isImage: true
   });
 });
