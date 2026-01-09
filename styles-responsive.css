@@ -152,12 +152,17 @@ h1 {
 }
 
 .tag-blog {
-    background-color: #4a9eff;
+    background-color: #4a9eff91;
     color: #faf8ed;
 }
 
+/* .tag-blog:hover {
+    background-color: rgba(250, 248, 237, 0.1);
+} */
+
+
 .tag-project {
-    background-color: #ff6b6b;
+    background-color: #ff6b6b96;
     color: #faf8ed;
 }
 
