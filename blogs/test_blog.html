@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post Title</title>
+    <link rel="stylesheet" href="../css/blog-styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate table of contents
+            const content = document.querySelector('.blog-article');
+            const tocWrapper = document.querySelector('.toc-sticky');
+            const toc = document.getElementById('toc');
+            const headings = content.querySelectorAll('h2, h3');
+            
+            headings.forEach((heading, index) => {
+                // Add ID to heading for anchor links
+                const id = 'heading-' + index;
+                heading.id = id;
+                
+                // Create TOC item
+                const li = document.createElement('li');
+                li.className = heading.tagName.toLowerCase();
+                li.setAttribute('data-heading-id', id);
+                const a = document.createElement('a');
+                a.href = '#' + id;
+                a.textContent = heading.textContent;
+                li.appendChild(a);
+                toc.appendChild(li);
+            });
+            
+            // Position TOC items based on heading positions
+            function positionTOCItems() {
+                const contentTop = content.getBoundingClientRect().top + window.scrollY;
+                const contentHeight = content.offsetHeight;
+                const tocHeight = tocWrapper.offsetHeight - 120; // Account for title
+                
+                headings.forEach((heading) => {
+                    const headingTop = heading.getBoundingClientRect().top + window.scrollY;
+                    const relativePosition = (headingTop - contentTop) / contentHeight;
+                    const tocItem = toc.querySelector(`li[data-heading-id="${heading.id}"]`);
+                    
+                    if (tocItem) {
+                        const topPosition = relativePosition * tocHeight;
+                        tocItem.style.top = topPosition + 'px';
+                    }
+                });
+            }
+            
+            // Initial positioning
+            positionTOCItems();
+            window.addEventListener('resize', positionTOCItems);
+            
+            // Smooth scroll for TOC links
+            toc.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    e.preventDefault();
+                    const target = document.querySelector(e.target.getAttribute('href'));
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+            
+            // Highlight active section
+            function highlightTOC() {
+                const scrollPos = window.scrollY + 100;
+                headings.forEach((heading) => {
+                    const section = heading;
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    const tocLink = toc.querySelector(`a[href="#${section.id}"]`);
+                    
+                    if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+                        toc.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+                        if (tocLink) tocLink.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', highlightTOC);
+            highlightTOC();
+        });
+    </script>
+</head>
+<body>
+    <div class="blog-container">
+        <div class="toc-wrapper">
+            <div class="toc-sticky">
+                <h3>Table of Contents</h3>
+                <ul id="toc"></ul>
+            </div>
+        </div>
+        
+        <div class="blog-content">
+            <a href="../index.html" class="back-link">← Back to Home</a>
+            
+            <article class="blog-article">
+                <h1>Understanding the Mathematics of Machine Learning</h1>
+                <span class="blog-date">December 15, 2024</span>
+                
+                <p>Machine learning relies heavily on mathematical foundations. In this post, we'll explore some key concepts and equations that power modern ML algorithms.</p>
+                
+                <h2>Linear Regression</h2>
+                
+                <p>Linear regression is one of the simplest machine learning algorithms. The goal is to find a line that best fits our data points. The equation for a line is:</p>
+                
+                <p class="math-block">$$y = mx + b$$</p>
+                
+                <p>Where \(m\) is the slope and \(b\) is the y-intercept. In machine learning, we often write this as:</p>
+                
+                <p class="math-block">$$\hat{y} = \theta_0 + \theta_1 x$$</p>
+                
+                <p>Here, \(\theta_0\) and \(\theta_1\) are parameters we need to learn from the data.</p>
+                
+                <h3>Cost Function</h3>
+                
+                <p>To find the best parameters, we minimize a cost function. The most common is Mean Squared Error (MSE):</p>
+                
+                <p class="math-block">$$J(\theta) = \frac{1}{2m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2$$</p>
+                
+                <p>Where \(m\) is the number of training examples, \(h_\theta(x^{(i)})\) is our prediction, and \(y^{(i)}\) is the actual value.</p>
+                
+                <h2>Gradient Descent</h2>
+                
+                <p>Gradient descent is an optimization algorithm used to minimize the cost function. The update rule is:</p>
+                
+                <p class="math-block">$$\theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j} J(\theta)$$</p>
+                
+                <p>Where \(\alpha\) is the learning rate. For linear regression, this becomes:</p>
+                
+                <p class="math-block">$$\theta_j := \theta_j - \alpha \frac{1}{m} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)}) x_j^{(i)}$$</p>
+                
+                <h2>Neural Networks</h2>
+                
+                <p>Neural networks extend these concepts with activation functions. A common one is the sigmoid function:</p>
+                
+                <p class="math-block">$$\sigma(z) = \frac{1}{1 + e^{-z}}$$</p>
+                
+                <p>The output of a neuron with weights \(w\) and bias \(b\) is:</p>
+                
+                <p class="math-block">$$a = \sigma(w^T x + b)$$</p>
+                
+                <h3>Backpropagation</h3>
+                
+                <p>Training neural networks uses backpropagation, which applies the chain rule to compute gradients:</p>
+                
+                <p class="math-block">$$\frac{\partial J}{\partial w} = \frac{\partial J}{\partial a} \cdot \frac{\partial a}{\partial z} \cdot \frac{\partial z}{\partial w}$$</p>
+                
+                <p>This allows us to efficiently compute how each weight contributes to the error.</p>
+                
+                <h2>Conclusion</h2>
+                
+                <p>These mathematical foundations are essential for understanding how machine learning algorithms work. While modern frameworks handle the implementation details, knowing the math helps you make better decisions when designing and debugging models.</p>
+                
+                <p>You can write inline math like \(E = mc^2\) or display equations in blocks like shown above. The possibilities are endless!</p>
+            </article>
+        </div>
+    </div>
+</body>
+</html>

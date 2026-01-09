@@ -1,0 +1,110 @@
+/* Import base styles */
+@import url('styles-responsive.css');
+
+/* Override body scrollbar for blog pages */
+body {
+    overflow-y: auto;
+    height: auto;
+}
+
+body::-webkit-scrollbar {
+    width: 6px;
+}
+
+body::-webkit-scrollbar-track {
+    background: #2a2d26;
+}
+
+body::-webkit-scrollbar-thumb {
+    background: #a773c9;
+    border-radius: 3px;
+    /* max-height: 40px; */
+}
+
+body::-webkit-scrollbar-thumb:hover {
+    background: #8e5db0;
+}
+
+/* Blog page specific TOC styles */
+.toc-wrapper {
+    width: 220px;
+    order: 2;
+    position: relative;
+}
+
+.toc-sticky {
+    position: fixed;
+    right: 20px;
+    top: 40px;
+    bottom: 40px;
+    width: 200px;
+    padding: 0;
+}
+
+.toc-sticky h3 {
+    position: relative;
+    top: 0;
+    left: 0;
+    color: #faf8ed;
+    font-size: 1em;
+    margin-bottom: 30px;
+}
+
+.toc-sticky ul {
+    list-style: none;
+    position: relative;
+    height: calc(100% - 50px);
+    padding: 0;
+    margin: 0;
+}
+
+.toc-sticky li {
+    position: absolute;
+    line-height: 1.3;
+    transition: all 0.3s ease;
+    left: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.toc-sticky li.h2 {
+    padding-left: 0;
+}
+
+.toc-sticky li.h2::before {
+    display: none;
+}
+
+.toc-sticky li.h3 a.active::before {
+    opacity: 1;
+}
+
+.toc-sticky a {
+    color: #a773c9;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+    padding: 4px 0;
+    opacity: 0.6;
+    font-size: 0.85em;
+    word-wrap: break-word;
+}
+
+.toc-sticky a:hover {
+    opacity: 1;
+}
+
+.toc-sticky a.active {
+    color: #faf8ed;
+    font-weight: bold;
+    opacity: 1;
+    border-left: 3px solid #a773c9;
+    padding-left: 8px;
+    margin-left: -3px;
+}
+
+.toc-sticky li.h3 a.active {
+    padding-left: 8px;
+    margin-left: -3px;
+}
