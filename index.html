@@ -142,14 +142,43 @@
     </style> -->
 
     <link rel="stylesheet" href="styles-responsive.css">
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          const toggle = document.getElementById('friendsToggle');
+          const list = document.getElementById('friendsList');
+          const arrow = toggle.querySelector('.arrow');
+          
+          toggle.addEventListener('click', function() {
+              list.classList.toggle('show');
+              arrow.classList.toggle('rotated');
+          });
+      });
+    </script>
+
   </head>
 <body>
     <div class="container">
         <div class="left-box">
             <h1>Keshav Deoskar</h1>
             <p class="bio">
-                Hi! Welcome to my personal space on the web. I like math, physics, and engineering. I'm particularly interested in topological/geometrical phenomena in physics and quantum computing. 
+                Hi! I'm Keshav, a fourth year undergraduate at UC Berkeley. I like math, physics, and engineering. I'm particularly interested in topological/geometrical phenomena in physics and quantum computing. 
             </p>
+
+            <div class="friends-section">
+                <button class="dropdown-toggle" id="friendsToggle">
+                    <span class="arrow">▶</span> Some of my friends!
+                </button>
+                <ul class="friends-list" id="friendsList">
+                    <li><a href="https://mehulnair.com/index.html" target="_blank">Mehul Nair</a></li>
+                    <li><a href="https://ishaangupta04.github.io/" target="_blank">Ishaan Gupta</a></li>
+                    <li><a href="https://bryanyli.github.io/" target="_blank">Bryan Li</a></li>
+                    <li><a href="https://www.linkedin.com/in/nicole-klatt-a19b6925b/" target="_blank">Nicole Klatt</a></li>
+                    <li><a href="https://www.linkedin.com/in/jeshwanth-mohan-0345a2257/" target="_blank">Jeshwanth Mohan</a></li>
+                    <li><a href="https://aubrieta.github.io/" target="_blank">Dixie Kong :3</a></li>
+                </ul>
+            </div>
+
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/keshav-balwant-deoskar-663576199/" target="_blank" title="LinkedIn">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
@@ -167,7 +196,8 @@
                     </svg>
                 </a>
             </div>
-        </div>
+          </div>
+
 
         <div class="right-box">
             <ul class="blog-list">
@@ -177,7 +207,7 @@
                     <p class="blog-date">In-Progress</p>
                 </li>
                 <li class="blog-item">
-                    <h2><a href="https://drive.google.com/file/d/1DJz0hwsjJW-O8yhLZsO3fApgL1jdb1zD/view?usp=sharing">A Brief Intro to Holographic Error Correction</a></h2>
+                    <h2><a href="https://drive.google.com/file/d/1DJz0hwsjJW-O8yhLZsO3fApgL1jdb1zD/view?usp=sharing" target="_blank" rel="noopener noreferrer">A Brief Intro to Holographic Error Correction</a></h2>
                     <p>Physics/EECS/Chemistry C191 Final Project</p>
                     <p class="blog-date">May 20, 2025</p>
                 <!-- </li>

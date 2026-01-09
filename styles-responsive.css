@@ -67,6 +67,64 @@ h1 {
     transform: scale(1.2);
 }
 
+.friends-section {
+    margin-bottom: 20px;
+}
+
+.dropdown-toggle {
+    background: none;
+    border: none;
+    color: #faf8ed;
+    font-size: 1.1em;
+    cursor: pointer;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: inherit;
+    transition: color 0.2s;
+}
+
+.dropdown-toggle:hover {
+    color: #a773c9;
+}
+
+.arrow {
+    display: inline-block;
+    transition: transform 0.3s;
+    font-size: 0.8em;
+}
+
+.arrow.rotated {
+    transform: rotate(90deg);
+}
+
+.friends-list {
+    list-style: none;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
+    padding-left: 24px;
+}
+
+.friends-list.show {
+    max-height: 300px;
+}
+
+.friends-list li {
+    margin: 8px 0;
+}
+
+.friends-list a {
+    color: #a773c9;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.friends-list a:hover {
+    opacity: 0.7;
+}
+
 .blog-list {
     list-style: none;
 }
@@ -78,6 +136,34 @@ h1 {
     margin-bottom: 20px;
     border-radius: 8px;
     transition: background-color 0.2s;
+    position: relative;
+}
+
+.tag {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.75em;
+    font-weight: bold;
+    padding: 4px 10px;
+    border-radius: 4px;
+    letter-spacing: 1px;
+}
+
+.tag-blog {
+    background-color: #4a9eff;
+    color: #faf8ed;
+}
+
+.tag-project {
+    background-color: #ff6b6b;
+    color: #faf8ed;
+}
+
+.tag-tutorial {
+    background-color: #51cf66;
+    color: #faf8ed;
 }
 
 .blog-item:hover {
