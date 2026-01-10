@@ -6,92 +6,10 @@
     <title>Blog Post Title</title>
     <link rel="stylesheet" href="../css/blog-styles.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Generate table of contents
-            const content = document.querySelector('.blog-article');
-            const tocWrapper = document.querySelector('.toc-sticky');
-            const toc = document.getElementById('toc');
-            const headings = content.querySelectorAll('h2, h3');
-            
-            headings.forEach((heading, index) => {
-                // Add ID to heading for anchor links
-                const id = 'heading-' + index;
-                heading.id = id;
-                
-                // Create TOC item
-                const li = document.createElement('li');
-                li.className = heading.tagName.toLowerCase();
-                li.setAttribute('data-heading-id', id);
-                const a = document.createElement('a');
-                a.href = '#' + id;
-                a.textContent = heading.textContent;
-                li.appendChild(a);
-                toc.appendChild(li);
-            });
-            
-            // Position TOC items based on heading positions
-            function positionTOCItems() {
-                const contentTop = content.getBoundingClientRect().top + window.scrollY;
-                const contentHeight = content.offsetHeight;
-                const tocHeight = tocWrapper.offsetHeight - 120; // Account for title
-                
-                headings.forEach((heading) => {
-                    const headingTop = heading.getBoundingClientRect().top + window.scrollY;
-                    const relativePosition = (headingTop - contentTop) / contentHeight;
-                    const tocItem = toc.querySelector(`li[data-heading-id="${heading.id}"]`);
-                    
-                    if (tocItem) {
-                        const topPosition = relativePosition * tocHeight;
-                        tocItem.style.top = topPosition + 'px';
-                    }
-                });
-            }
-            
-            // Initial positioning
-            positionTOCItems();
-            window.addEventListener('resize', positionTOCItems);
-            
-            // Smooth scroll for TOC links
-            toc.addEventListener('click', function(e) {
-                if (e.target.tagName === 'A') {
-                    e.preventDefault();
-                    const target = document.querySelector(e.target.getAttribute('href'));
-                    target.scrollIntoView({ behavior: 'smooth' });
-                }
-            });
-            
-            // Highlight active section
-            function highlightTOC() {
-                const scrollPos = window.scrollY + 100;
-                headings.forEach((heading) => {
-                    const section = heading;
-                    const sectionTop = section.offsetTop;
-                    const sectionBottom = sectionTop + section.offsetHeight;
-                    const tocLink = toc.querySelector(`a[href="#${section.id}"]`);
-                    
-                    if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
-                        toc.querySelectorAll('a').forEach(a => a.classList.remove('active'));
-                        if (tocLink) tocLink.classList.add('active');
-                    }
-                });
-            }
-            
-            window.addEventListener('scroll', highlightTOC);
-            highlightTOC();
-        });
-    </script>
+    <script src="../javascript/blog-script.js"></script>
 </head>
 <body>
     <div class="blog-container">
-        <div class="toc-wrapper">
-            <div class="toc-sticky">
-                <h3>Table of Contents</h3>
-                <ul id="toc"></ul>
-            </div>
-        </div>
-        
         <div class="blog-content">
             <a href="../index.html" class="back-link">← Back to Home</a>
             
@@ -155,6 +73,14 @@
                 
                 <p>You can write inline math like \(E = mc^2\) or display equations in blocks like shown above. The possibilities are endless!</p>
             </article>
+        </div>
+        
+        <!-- TOC for desktop only -->
+        <div class="toc-wrapper toc-desktop">
+            <div class="toc-sticky">
+                <h3>Table of Contents</h3>
+                <ul id="toc"></ul>
+            </div>
         </div>
     </div>
 </body>

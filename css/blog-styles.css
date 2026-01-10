@@ -1,12 +1,19 @@
-/* Import base styles */
-@import url('styles-responsive.css');
+/* Base styles needed for blog pages */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-/* Override body scrollbar for blog pages */
 body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #2a2d26;
+    color: #faf8ed;
     overflow-y: auto;
     height: auto;
 }
 
+/* Custom scrollbar for body */
 body::-webkit-scrollbar {
     width: 6px;
 }
@@ -18,14 +25,120 @@ body::-webkit-scrollbar-track {
 body::-webkit-scrollbar-thumb {
     background: #a773c9;
     border-radius: 3px;
-    /* max-height: 40px; */
+    min-height: 40px;
 }
 
 body::-webkit-scrollbar-thumb:hover {
     background: #8e5db0;
 }
 
-/* Blog page specific TOC styles */
+/* Blog container */
+.blog-container {
+    display: flex;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    gap: 40px;
+    position: relative;
+}
+
+.blog-content {
+    flex: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.blog-article {
+    margin-top: 20px;
+}
+
+h1 {
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    color: #faf8ed;
+}
+
+.blog-date {
+    font-size: 1em;
+    opacity: 0.6;
+    margin-bottom: 30px;
+    display: block;
+}
+
+h2 {
+    font-size: 1.8em;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    color: #faf8ed;
+}
+
+h3 {
+    font-size: 1.4em;
+    margin-top: 25px;
+    margin-bottom: 12px;
+    color: #faf8ed;
+}
+
+p {
+    font-size: 1.1em;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: #faf8ed;
+}
+
+a {
+    color: #a773c9;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #a773c9;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+.math-block {
+    font-size: 1.2em;
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    background-color: rgba(250, 248, 237, 0.05);
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+code {
+    background-color: rgba(250, 248, 237, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+}
+
+pre {
+    background-color: rgba(250, 248, 237, 0.1);
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+pre code {
+    background-color: transparent;
+    padding: 0;
+}
+
+/* TOC styles for desktop */
 .toc-wrapper {
     width: 220px;
     order: 2;
@@ -66,19 +179,9 @@ body::-webkit-scrollbar-thumb:hover {
     width: 100%;
     display: flex;
     align-items: center;
+    min-height: 24px;
 }
 
-.toc-sticky li.h2 {
-    padding-left: 0;
-}
-
-.toc-sticky li.h2::before {
-    display: none;
-}
-
-.toc-sticky li.h3 a.active::before {
-    opacity: 1;
-}
 
 .toc-sticky a {
     color: #a773c9;
@@ -107,4 +210,44 @@ body::-webkit-scrollbar-thumb:hover {
 .toc-sticky li.h3 a.active {
     padding-left: 8px;
     margin-left: -3px;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .blog-container {
+        flex-direction: column;
+        padding: 20px 15px;
+    }
+
+    .blog-content {
+        padding: 20px 15px;
+        max-width: 100%;
+    }
+
+    h1 {
+        font-size: 2em;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    h3 {
+        font-size: 1.2em;
+    }
+
+    p {
+        font-size: 1em;
+    }
+
+    .math-block {
+        font-size: 1em;
+        padding: 15px;
+        margin: 20px 0;
+    }
+
+    /* Hide TOC on mobile */
+    .toc-wrapper {
+        display: none !important;
+    }
 }

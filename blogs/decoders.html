@@ -4,29 +4,159 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Decoders!</title>
-    <link rel="stylesheet" href="../css/style.css">
+    <!-- <link rel="stylesheet" href="../css/style.css"> -->
+    <link rel="stylesheet" href="../css/blog-styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
+    <script src="../javascript/blog-script.js"></script>
+
+        <!-- <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate table of contents
+            const content = document.querySelector('.blog-article');
+            const tocWrapper = document.querySelector('.toc-sticky');
+            const toc = document.getElementById('toc');
+            const headings = content.querySelectorAll('h2, h3');
+            
+            headings.forEach((heading, index) => {
+                // Add ID to heading for anchor links
+                const id = 'heading-' + index;
+                heading.id = id;
+                
+                // Create TOC item
+                const li = document.createElement('li');
+                li.className = heading.tagName.toLowerCase();
+                li.setAttribute('data-heading-id', id);
+                const a = document.createElement('a');
+                a.href = '#' + id;
+                a.textContent = heading.textContent;
+                li.appendChild(a);
+                toc.appendChild(li);
+            });
+            
+            // Position TOC items based on heading positions
+            function positionTOCItems() {
+                const contentTop = content.getBoundingClientRect().top + window.scrollY;
+                const contentHeight = content.offsetHeight;
+                const tocHeight = tocWrapper.offsetHeight - 120; // Account for title
+                
+                headings.forEach((heading) => {
+                    const headingTop = heading.getBoundingClientRect().top + window.scrollY;
+                    const relativePosition = (headingTop - contentTop) / contentHeight;
+                    const tocItem = toc.querySelector(`li[data-heading-id="${heading.id}"]`);
+                    
+                    if (tocItem) {
+                        const topPosition = relativePosition * tocHeight;
+                        tocItem.style.top = topPosition + 'px';
+                    }
+                });
+            }
+            
+            // Initial positioning
+            positionTOCItems();
+            window.addEventListener('resize', positionTOCItems);
+            
+            // Smooth scroll for TOC links
+            toc.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    e.preventDefault();
+                    const target = document.querySelector(e.target.getAttribute('href'));
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+            
+            // Highlight active section
+            function highlightTOC() {
+                const scrollPos = window.scrollY + 100;
+                headings.forEach((heading) => {
+                    const section = heading;
+                    const sectionTop = section.offsetTop;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    const tocLink = toc.querySelector(`a[href="#${section.id}"]`);
+                    
+                    if (scrollPos >= sectionTop && scrollPos < sectionBottom) {
+                        toc.querySelectorAll('a').forEach(a => a.classList.remove('active'));
+                        if (tocLink) tocLink.classList.add('active');
+                    }
+                });
+            }
+            
+            window.addEventListener('scroll', highlightTOC);
+            highlightTOC();
+        });
+    </script> -->
+
 </head>
 <body>
-    <div class="blog-content">
-        <a href="../index.html" class="back-link">← Back to Home</a>
-        <h1>Decoders</h1>
-        <span class="blog-date">December 15, 2024</span>
-        
-        <p>Your blog content goes here... </p>
-        
 
-        <h2>Subheading</h2>
-        <p>More content...</p>
+    <!-- <div class="blog-container">
 
-        <h2>Some interesting links</h2>
-        <ul>
-            <li> <a href="https://dl.acm.org/doi/10.1145/3733239">QUEKUF: An FPGA Union Find Decoder for Quantum Error Correction on the Toric Code</a></li>
-            <li><a href="https://arxiv.org/pdf/2306.09767">Union-Find Decoder</a></li>
-            <li><a href="https://arxiv.org/pdf/2503.13601">Recent (2025) improvements to MPWM</a></li>
-            <li><a href="https://quantumcomputing.stackexchange.com/questions/29899/are-there-open-source-implementations-of-quantum-error-correction-decoders">Stackoverflow: Are there open source implementations of quantum error correction decoders?</a></li>
-            <li><a href="https://arxiv.org/pdf/2203.04948">Higgott et. al. Belief-matching and Belief-find decoders</a></li>
-            <li><a href="https://pymatching.readthedocs.io/en/latest/index.html">PyMatching2: Fast Python/C++ library for decoding using MPWM</a></li>
-        </ul>
+        <div class="toc-wrapper">
+            <div class="toc-sticky">
+                <h3>Table of Contents</h3>
+                <ul id="toc"></ul>
+            </div>
+        </div>
+
+        <div class="blog-content">
+            <a href="../index.html" class="back-link">← Back to Home</a>
+
+            <article class="blog-article">
+                <h1>Decoders</h1>
+                <span class="blog-date">December 15, 2024</span>
+                
+                <p>Your blog content goes here... </p>
+                
+
+                <h2>Subheading</h2>
+                <p>More content...</p>
+
+                <h2>Some interesting links</h2>
+                <ul>
+                    <li> <a href="https://dl.acm.org/doi/10.1145/3733239">QUEKUF: An FPGA Union Find Decoder for Quantum Error Correction on the Toric Code</a></li>
+                    <li><a href="https://arxiv.org/pdf/2306.09767">Union-Find Decoder</a></li>
+                    <li><a href="https://arxiv.org/pdf/2503.13601">Recent (2025) improvements to MPWM</a></li>
+                    <li><a href="https://quantumcomputing.stackexchange.com/questions/29899/are-there-open-source-implementations-of-quantum-error-correction-decoders">Stackoverflow: Are there open source implementations of quantum error correction decoders?</a></li>
+                    <li><a href="https://arxiv.org/pdf/2203.04948">Higgott et. al. Belief-matching and Belief-find decoders</a></li>
+                    <li><a href="https://pymatching.readthedocs.io/en/latest/index.html">PyMatching2: Fast Python/C++ library for decoding using MPWM</a></li>
+                </ul>
+            </article>
+
+        </div>
+
+    </div> -->
+
+        <div class="blog-container">
+        <div class="toc-wrapper">
+            <div class="toc-sticky">
+                <h3>Table of Contents</h3>
+                <ul id="toc"></ul>
+            </div>
+        </div>
+        
+        <div class="blog-content">
+            <a href="../index.html" class="back-link">← Back to Home</a>
+            
+            <article class="blog-article">
+                <h1>Decoders!</h1>
+                <span class="blog-date">In-Progress</span>
+                
+                <h2>Some interesting links</h2>
+                <ul>
+                    <li> <a href="https://dl.acm.org/doi/10.1145/3733239">QUEKUF: An FPGA Union Find Decoder for Quantum Error Correction on the Toric Code</a></li>
+                    <li><a href="https://arxiv.org/pdf/2306.09767">Union-Find Decoder</a></li>
+                    <li><a href="https://arxiv.org/pdf/2503.13601">Recent (2025) improvements to MPWM</a></li>
+                    <li><a href="https://quantumcomputing.stackexchange.com/questions/29899/are-there-open-source-implementations-of-quantum-error-correction-decoders">Stackoverflow: Are there open source implementations of quantum error correction decoders?</a></li>
+                    <li><a href="https://arxiv.org/pdf/2203.04948">Higgott et. al. Belief-matching and Belief-find decoders</a></li>
+                    <li><a href="https://pymatching.readthedocs.io/en/latest/index.html">PyMatching2: Fast Python/C++ library for decoding using MPWM</a></li>
+                </ul>
+
+            </article>
+        </div>
     </div>
+
+
+
 </body>
 </html>
+

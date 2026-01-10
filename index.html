@@ -4,156 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>kdeoskar</title>
-    <!-- <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-            background-color: #2a2d26;
-            color: #faf8ed;
-            height: 100vh;
-            overflow: hidden;
-        }
-
-        .container {
-            display: flex;
-            height: 100vh;
-            padding: 20px;
-            gap: 20px;
-        }
-
-        .left-box {
-            width: 30%;
-            background-color: #44473c;
-            border: 2px solid #faf8ed;
-            border-radius: 20px;
-            padding: 40px 30px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .right-box {
-            width: 70%;
-            background-color: #44473c;
-            border: 2px solid #faf8ed;
-            border-radius: 20px;
-            padding: 40px;
-            overflow-y: auto;
-        }
-
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            color: #faf8ed;
-        }
-
-        .bio {
-            font-size: 1.1em;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            color: #faf8ed;
-        }
-
-        .social-links {
-            display: flex;
-            gap: 20px;
-            margin-top: auto;
-        }
-
-        .social-links a {
-            color: #a773c9;
-            font-size: 1.5em;
-            transition: transform 0.2s;
-            text-decoration: none;
-        }
-
-        .social-links a:hover {
-            transform: scale(1.2);
-        }
-
-        .blog-list {
-            list-style: none;
-        }
-
-        .blog-item {
-            background-color: rgba(250, 248, 237, 0.05);
-            border-left: 4px solid #a773c9;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            transition: background-color 0.2s;
-        }
-
-        .blog-item:hover {
-            background-color: rgba(250, 248, 237, 0.1);
-        }
-
-        .blog-item h2 {
-            font-size: 1.5em;
-            margin-bottom: 10px;
-            color: #faf8ed;
-        }
-
-        .blog-item a {
-            color: #a773c9;
-            text-decoration: none;
-            font-weight: 500;
-        }
-
-        .blog-item a:hover {
-            text-decoration: underline;
-        }
-
-        .blog-item p {
-            color: #faf8ed;
-            opacity: 0.8;
-            margin-top: 10px;
-            line-height: 1.6;
-        }
-
-        .blog-date {
-            font-size: 0.9em;
-            opacity: 0.6;
-            margin-top: 10px;
-        }
-
-        /* Custom scrollbar */
-        .right-box::-webkit-scrollbar {
-            width: 10px;
-        }
-
-        .right-box::-webkit-scrollbar-track {
-            background: rgba(250, 248, 237, 0.1);
-            border-radius: 10px;
-        }
-
-        .right-box::-webkit-scrollbar-thumb {
-            background: #a773c9;
-            border-radius: 10px;
-        }
-
-        .right-box::-webkit-scrollbar-thumb:hover {
-            background: #8e5db0;
-        }
-    </style> -->
-
     <link rel="stylesheet" href="css/styles-responsive.css">
 
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-          const toggle = document.getElementById('friendsToggle');
-          const list = document.getElementById('friendsList');
-          const arrow = toggle.querySelector('.arrow');
-          
-          toggle.addEventListener('click', function() {
-              list.classList.toggle('show');
-              arrow.classList.toggle('rotated');
-          });
-      });
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggle = document.getElementById('friendsToggle');
+            const list = document.getElementById('friendsList');
+            const arrow = toggle.querySelector('.arrow');
+            
+            toggle.addEventListener('click', function() {
+                list.classList.toggle('show');
+                arrow.classList.toggle('rotated');
+            });
+        });
     </script>
 
   </head>
@@ -201,12 +64,12 @@
 
         <div class="right-box">
             <ul class="blog-list">
-                <li class="blog-item">
+                <!-- <li class="blog-item">
                     <span class="tag tag-blog">TRIAL BLOG</span>
                     <h2><a href="blogs/test_blog.html" target="_blank" rel="noopener noreferrer">Testing slider</a></h2>
                     <p>Test</p>
                     <p class="blog-date">In-progress</p>
-                </li>
+                </li> -->
                 <li class="blog-item">
                     <span class="tag tag-blog">BLOG</span>
                     <h2><a href="blogs/decoders.html">Decoders!</a></h2>
@@ -218,7 +81,7 @@
                     <h2><a href="https://drive.google.com/file/d/1DJz0hwsjJW-O8yhLZsO3fApgL1jdb1zD/view?usp=sharing" target="_blank" rel="noopener noreferrer">A Brief Intro to Holographic Error Correction</a></h2>
                     <p>Physics/EECS/Chemistry C191 Final Project</p>
                     <p class="blog-date">May 20, 2025</p>
-                </li>
+                <!-- </li>
                                 <li class="blog-item">
                     <span class="tag tag-project">PROJECT</span>
                     <h2><a href="https://drive.google.com/file/d/1DJz0hwsjJW-O8yhLZsO3fApgL1jdb1zD/view?usp=sharing" target="_blank" rel="noopener noreferrer">A Brief Intro to Holographic Error Correction</a></h2>
@@ -254,7 +117,7 @@
                     <h2><a href="https://drive.google.com/file/d/1DJz0hwsjJW-O8yhLZsO3fApgL1jdb1zD/view?usp=sharing" target="_blank" rel="noopener noreferrer">A Brief Intro to Holographic Error Correction</a></h2>
                     <p>Physics/EECS/Chemistry C191 Final Project</p>
                     <p class="blog-date">May 20, 2025</p>
-                </li>
+                </li> -->
         </div>
     </div>
 </body>
