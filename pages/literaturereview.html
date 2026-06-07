@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Literature Review – Keshav Deoskar</title>
+    <link rel="stylesheet" href="../css/styles-responsive.css">
+    <style>
+        body {
+            overflow-y: auto;
+            height: auto;
+            min-height: 100vh;
+        }
+
+        .lit-page {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+
+        .lit-page h1 {
+            font-size: 2.2em;
+            margin-bottom: 8px;
+        }
+
+        .lit-subtitle {
+            opacity: 0.6;
+            margin-bottom: 32px;
+            font-size: 1em;
+        }
+
+        /* Search */
+        .search-wrap {
+            position: relative;
+            margin-bottom: 36px;
+        }
+
+        .search-wrap svg {
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0.45;
+            pointer-events: none;
+        }
+
+        #searchInput {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            background-color: rgba(250, 248, 237, 0.07);
+            border: 1px solid rgba(250, 248, 237, 0.25);
+            border-radius: 10px;
+            color: #faf8ed;
+            font-size: 1em;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #searchInput::placeholder {
+            color: rgba(250, 248, 237, 0.35);
+        }
+
+        #searchInput:focus {
+            border-color: #a773c9;
+        }
+
+        /* Paper list */
+        .paper-list {
+            list-style: none;
+            counter-reset: paper-counter;
+        }
+
+        .paper-list li {
+            counter-increment: paper-counter;
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 14px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.18s;
+            border-bottom: 1px solid rgba(250, 248, 237, 0.08);
+        }
+
+        .paper-list li:hover {
+            background-color: rgba(250, 248, 237, 0.07);
+        }
+
+        .paper-list li::before {
+            content: counter(paper-counter) ".";
+            color: #a773c9;
+            font-weight: bold;
+            min-width: 28px;
+            padding-top: 1px;
+            flex-shrink: 0;
+        }
+
+        .paper-title-text {
+            font-size: 1.05em;
+            color: #faf8ed;
+            line-height: 1.5;
+        }
+
+        .paper-tags-inline {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 6px;
+        }
+
+        .tag-pill {
+            font-size: 0.72em;
+            padding: 2px 8px;
+            border-radius: 20px;
+            background-color: rgba(167, 115, 201, 0.2);
+            border: 1px solid rgba(167, 115, 201, 0.45);
+            color: #c9a0e8;
+            letter-spacing: 0.3px;
+        }
+
+        .no-results {
+            text-align: center;
+            opacity: 0.45;
+            padding: 48px 0;
+            display: none;
+        }
+
+        /* Modal overlay */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.65);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background-color: #3a3d34;
+            border: 1px solid rgba(250, 248, 237, 0.2);
+            border-radius: 16px;
+            width: 80%;
+            max-width: 900px;
+            max-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .modal-header {
+            padding: 28px 32px 20px;
+            border-bottom: 1px solid rgba(250, 248, 237, 0.1);
+            flex-shrink: 0;
+        }
+
+        .modal-header h2 {
+            font-size: 1.45em;
+            line-height: 1.4;
+            color: #faf8ed;
+            margin-bottom: 10px;
+            padding-right: 32px;
+        }
+
+        .modal-authors {
+            font-size: 0.95em;
+            opacity: 0.75;
+            margin-bottom: 10px;
+        }
+
+        .modal-citation {
+            font-size: 0.88em;
+            opacity: 0.6;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .modal-link {
+            color: #a773c9;
+            font-size: 0.9em;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .modal-link:hover {
+            text-decoration: underline;
+        }
+
+        .modal-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 14px;
+        }
+
+        .modal-body {
+            padding: 24px 32px 32px;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .modal-body p {
+            font-size: 1em;
+            line-height: 1.8;
+            color: #faf8ed;
+            opacity: 0.88;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #faf8ed;
+            font-size: 1.5em;
+            cursor: pointer;
+            opacity: 0.5;
+            line-height: 1;
+            transition: opacity 0.2s;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+        }
+
+        .modal-header {
+            position: relative;
+        }
+
+        /* Scrollbar for modal */
+        .modal-body::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .modal-body::-webkit-scrollbar-track {
+            background: rgba(250, 248, 237, 0.05);
+        }
+
+        .modal-body::-webkit-scrollbar-thumb {
+            background: #a773c9;
+            border-radius: 4px;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 28px;
+            color: #a773c9;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            .modal {
+                width: 95%;
+                max-height: 90vh;
+            }
+
+            .modal-header, .modal-body {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="lit-page">
+        <a href="../index.html" class="back-link">← Back</a>
+        <h1>Literature Review</h1>
+        <p class="lit-subtitle">Papers I've read and found interesting. Click a title for notes.</p>
+
+        <div class="search-wrap">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#faf8ed" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" id="searchInput" placeholder="Search by title…" autocomplete="off">
+        </div>
+
+        <ol class="paper-list" id="paperList"></ol>
+        <p class="no-results" id="noResults">No papers match your search.</p>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <button class="modal-close" id="modalClose" aria-label="Close">×</button>
+                <h2 id="modalTitle"></h2>
+                <div class="modal-authors" id="modalAuthors"></div>
+                <div class="modal-citation" id="modalCitation"></div>
+                <a class="modal-link" id="modalLink" href="#" target="_blank" rel="noopener noreferrer"></a>
+                <div class="modal-tags" id="modalTags"></div>
+            </div>
+            <div class="modal-body">
+                <p id="modalDescription"></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ─── ADD PAPERS HERE ──────────────────────────────────────────────────────
+        // Each entry: { title, authors (array), link, citation, tags (array), description }
+        const papers = [
+            {
+                title: "Example: Anyons in an Exactly Solved Model and Beyond",
+                authors: ["A. Kitaev"],
+                link: "https://arxiv.org/abs/cond-mat/0506438",
+                citation: "Kitaev, A. (2006). Annals of Physics, 321(1), 2–111.",
+                tags: ["condensed matter", "topological order", "quantum error correction"],
+                description: "This is a placeholder description. Replace it with your own notes about this paper — what it proves, why it matters, how it connects to your interests, open questions it raises, etc."
+            }
+        ];
+        // ─────────────────────────────────────────────────────────────────────────
+
+        const listEl   = document.getElementById('paperList');
+        const noRes    = document.getElementById('noResults');
+        const searchEl = document.getElementById('searchInput');
+        const overlay  = document.getElementById('modalOverlay');
+
+        function renderList(filter) {
+            const q = (filter || '').toLowerCase();
+            listEl.innerHTML = '';
+            let shown = 0;
+
+            papers.forEach((paper, i) => {
+                if (q && !paper.title.toLowerCase().includes(q)) return;
+                shown++;
+
+                const li = document.createElement('li');
+                li.dataset.index = i;
+
+                const titleSpan = document.createElement('div');
+                titleSpan.innerHTML = `
+                    <div class="paper-title-text">${paper.title}</div>
+                    <div class="paper-tags-inline">
+                        ${paper.tags.map(t => `<span class="tag-pill">${t}</span>`).join('')}
+                    </div>
+                `;
+                li.appendChild(titleSpan);
+                li.addEventListener('click', () => openModal(i));
+                listEl.appendChild(li);
+            });
+
+            noRes.style.display = shown === 0 ? 'block' : 'none';
+        }
+
+        function openModal(i) {
+            const p = papers[i];
+            document.getElementById('modalTitle').textContent       = p.title;
+            document.getElementById('modalAuthors').textContent     = p.authors.join(', ');
+            document.getElementById('modalCitation').textContent    = p.citation;
+            document.getElementById('modalDescription').textContent = p.description;
+
+            const linkEl = document.getElementById('modalLink');
+            linkEl.href        = p.link;
+            linkEl.textContent = p.link;
+
+            const tagsEl = document.getElementById('modalTags');
+            tagsEl.innerHTML = p.tags.map(t => `<span class="tag-pill">${t}</span>`).join('');
+
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('modalClose').addEventListener('click', closeModal);
+        overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+        searchEl.addEventListener('input', () => renderList(searchEl.value));
+
+        renderList();
+    </script>
+</body>
+</html>
