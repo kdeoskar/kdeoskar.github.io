@@ -198,6 +198,13 @@
             margin-top: 14px;
         }
 
+        .modal-date {
+            font-size: 0.82em;
+            opacity: 0.5;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
         .modal-body {
             padding: 24px 32px 32px;
             overflow-y: auto;
@@ -299,6 +306,7 @@
                 <div class="modal-citation" id="modalCitation"></div>
                 <a class="modal-link" id="modalLink" href="#" target="_blank" rel="noopener noreferrer"></a>
                 <div class="modal-tags" id="modalTags"></div>
+                <div class="modal-date" id="modalDate"></div>
             </div>
             <div class="modal-body">
                 <p id="modalDescription"></p>
@@ -308,7 +316,7 @@
 
     <script>
         // ─── ADD PAPERS HERE ──────────────────────────────────────────────────────
-        // Each entry: { title, authors (array), link, citation, tags (array), description }
+        // Each entry: { title, authors (array), link, citation, tags (array), description, dateReviewed (optional) }
         const papers = [
             {
                 title: "Example: Anyons in an Exactly Solved Model and Beyond",
@@ -316,6 +324,7 @@
                 link: "https://arxiv.org/abs/cond-mat/0506438",
                 citation: "Kitaev, A. (2006). Annals of Physics, 321(1), 2–111.",
                 tags: ["condensed matter", "topological order", "quantum error correction"],
+                dateReviewed: "7 June 2026",
                 description: "This is a placeholder description. Replace it with your own notes about this paper — what it proves, why it matters, how it connects to your interests, open questions it raises, etc."
             }
         ];
@@ -366,6 +375,10 @@
 
             const tagsEl = document.getElementById('modalTags');
             tagsEl.innerHTML = p.tags.map(t => `<span class="tag-pill">${t}</span>`).join('');
+
+            const dateEl = document.getElementById('modalDate');
+            dateEl.textContent = p.dateReviewed ? 'Reviewed: ' + p.dateReviewed : '';
+            dateEl.style.display = p.dateReviewed ? 'block' : 'none';
 
             overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
