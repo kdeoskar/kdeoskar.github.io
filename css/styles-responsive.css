@@ -69,25 +69,44 @@ h1 {
     transform: scale(1.2);
 }
 
-.left-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
+.left-blurb {
+    font-size: 1em;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    color: #faf8ed;
+    opacity: 0.85;
+}
+
+.left-blurb a {
+    color: #a773c9;
+    text-decoration: none;
+    transition: opacity 0.2s;
+}
+
+.left-blurb a:hover {
+    opacity: 0.7;
+    text-decoration: underline;
+}
+
+.photo-section {
     margin-bottom: 20px;
 }
 
-.left-nav a {
-    color: #faf8ed;
-    text-decoration: none;
-    font-size: 1em;
-    padding: 6px 0;
-    border-bottom: 1px solid transparent;
-    transition: color 0.2s, border-color 0.2s;
+.photo-collapse {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out;
 }
 
-.left-nav a:hover {
-    color: #a773c9;
-    border-bottom-color: #a773c9;
+.photo-collapse.show {
+    max-height: 400px;
+}
+
+.profile-photo {
+    width: 100%;
+    border-radius: 12px;
+    margin-top: 10px;
+    display: block;
 }
 
 .friends-section {

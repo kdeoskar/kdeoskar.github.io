@@ -11,10 +11,17 @@
             const toggle = document.getElementById('friendsToggle');
             const list = document.getElementById('friendsList');
             const arrow = toggle.querySelector('.arrow');
-            
             toggle.addEventListener('click', function() {
                 list.classList.toggle('show');
                 arrow.classList.toggle('rotated');
+            });
+
+            const photoToggle = document.getElementById('photoToggle');
+            const photoCollapse = document.getElementById('photoCollapse');
+            const photoArrow = photoToggle.querySelector('.arrow');
+            photoToggle.addEventListener('click', function() {
+                photoCollapse.classList.toggle('show');
+                photoArrow.classList.toggle('rotated');
             });
         });
     </script>
@@ -28,11 +35,16 @@
                 Hi! I'm Keshav. I've recently graduated from UC Berkeley with a B.S. in Engineering Physics, and will be starting a PhD in Physics at the University of Sydney where I will be supervised by Dominic Williamson and Stephen Bartlett. I'm widely interested in topological phenomena, but I hope to focus on Topological Quantum Computing and Error Correction during grad school. 
             </p>
 
-            <!-- <img id="MyImage" src="assets/me.jpg" alt="Dolphins">  -->
-            
-            <nav class="left-nav">
-                The best way to learn is to teach, and altough it's not the same level of depth, here's a <a href="pages/literaturereview.html">Literature Review</a> page (inspired by <a href="https://milomoses.info/literature-reviews.html">Milo Moses' page</a>) where I write summaries of paper I've read.
-            </nav>
+            <div class="photo-section">
+                <button class="dropdown-toggle" id="photoToggle">
+                    <span class="arrow">▶</span> Photo
+                </button>
+                <div class="photo-collapse" id="photoCollapse">
+                    <img src="assets/me.jpg" alt="Keshav Deoskar" class="profile-photo">
+                </div>
+            </div>
+
+            <p class="left-blurb">The best way to learn is to teach, and although it's not the same level of depth, here's a <a href="pages/literature-review.html">Literature Review</a> page (inspired by <a href="https://milomoses.info/literature-reviews.html">Milo Moses' page</a>) where I write summaries of papers I've read.</p>
 
             <div class="friends-section">
                 <button class="dropdown-toggle" id="friendsToggle">
