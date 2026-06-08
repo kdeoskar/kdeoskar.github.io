@@ -5,6 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Literature Review – Keshav Deoskar</title>
     <link rel="stylesheet" href="../css/styles-responsive.css">
+    <script>
+        MathJax = {
+            tex: { inlineMath: [['$', '$']], displayMath: [['$$', '$$']] },
+            options: { skipHtmlTags: ['script','noscript','style','textarea','pre'] }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" async></script>
     <style>
         body {
             overflow-y: auto;
@@ -324,9 +331,13 @@
                 link: "https://arxiv.org/abs/cond-mat/0506438",
                 citation: "Kitaev, A. (2006). Annals of Physics, 321(1), 2–111.",
                 tags: ["condensed matter", "topological order", "quantum error correction"],
-                dateReviewed: "7 June 2026",
-                description: "This is a placeholder description. Replace it with your own notes about this paper — what it proves, why it matters, how it connects to your interests, open questions it raises, etc."
+                dateReviewed: "June 2026",
+                description: `<p>This is a placeholder description. You can write multiple paragraphs, and use inline math like $E = mc^2$ or display math:</p>
+                $$\\hat{H}|\\psi\\rangle = E|\\psi\\rangle$$
+                <p>Replace this with your own notes about the paper.</p>`
             }
+
+            
         ];
         // ─────────────────────────────────────────────────────────────────────────
 
@@ -364,10 +375,10 @@
 
         function openModal(i) {
             const p = papers[i];
-            document.getElementById('modalTitle').textContent       = p.title;
-            document.getElementById('modalAuthors').textContent     = p.authors.join(', ');
-            document.getElementById('modalCitation').textContent    = p.citation;
-            document.getElementById('modalDescription').textContent = p.description;
+            document.getElementById('modalTitle').textContent    = p.title;
+            document.getElementById('modalAuthors').textContent  = p.authors.join(', ');
+            document.getElementById('modalCitation').textContent = p.citation;
+            document.getElementById('modalDescription').innerHTML = p.description;
 
             const linkEl = document.getElementById('modalLink');
             linkEl.href        = p.link;
@@ -382,6 +393,7 @@
 
             overlay.classList.add('active');
             document.body.style.overflow = 'hidden';
+            if (window.MathJax) MathJax.typesetPromise([document.getElementById('modalDescription')]);
         }
 
         function closeModal() {
