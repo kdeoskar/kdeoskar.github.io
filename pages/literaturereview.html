@@ -75,11 +75,9 @@
         /* Paper list */
         .paper-list {
             list-style: none;
-            counter-reset: paper-counter;
         }
 
         .paper-list li {
-            counter-increment: paper-counter;
             display: flex;
             align-items: flex-start;
             gap: 14px;
@@ -94,8 +92,7 @@
             background-color: rgba(250, 248, 237, 0.07);
         }
 
-        .paper-list li::before {
-            content: counter(paper-counter) ".";
+        .paper-num {
             color: #a773c9;
             font-weight: bold;
             min-width: 28px;
@@ -327,15 +324,15 @@
         const papers = [
 
             {
-                title: "Anyons in an Exactly Solved Model and Beyond",
+                title: "Example: Anyons in an Exactly Solved Model and Beyond",
                 authors: ["Alexei Kitaev"],
                 link: "https://arxiv.org/abs/cond-mat/0506438",
                 citation: "Kitaev, A. (2006). Annals of Physics, 321(1), 2–111.",
                 tags: ["condensed matter", "topological order", "quantum error correction"],
                 dateReviewed: "June 2026",
                 description: `<p>This is a placeholder description. You can write multiple paragraphs, and use inline math like $E = mc^2$ or display math:</p>
-                $$\\hat{H}|\\psi\\rangle = E|\\psi\\rangle$$
-                <p>Replace this with your own notes about the paper.</p>`
+$$\\hat{H}|\\psi\\rangle = E|\\psi\\rangle$$
+<p>Replace this with your own notes about the paper.</p>`
             },
 
             {
@@ -363,7 +360,6 @@
                 </p>`
             },
 
-            
         ];
         // ─────────────────────────────────────────────────────────────────────────
 
@@ -375,28 +371,30 @@
         function renderList(filter) {
             const q = (filter || '').toLowerCase();
             listEl.innerHTML = '';
-            let shown = 0;
 
-            papers.forEach((paper, i) => {
-                if (q && !paper.title.toLowerCase().includes(q)) return;
-                shown++;
+            const filtered = papers
+                .map((paper, i) => ({ paper, i }))
+                .filter(({ paper }) => !q || paper.title.toLowerCase().includes(q));
+
+            filtered.reverse().forEach(({ paper, i }, pos) => {
+                const num = filtered.length - pos;
 
                 const li = document.createElement('li');
                 li.dataset.index = i;
-
-                const titleSpan = document.createElement('div');
-                titleSpan.innerHTML = `
-                    <div class="paper-title-text">${paper.title}</div>
-                    <div class="paper-tags-inline">
-                        ${paper.tags.map(t => `<span class="tag-pill">${t}</span>`).join('')}
+                li.innerHTML = `
+                    <span class="paper-num">${num}.</span>
+                    <div>
+                        <div class="paper-title-text">${paper.title}</div>
+                        <div class="paper-tags-inline">
+                            ${paper.tags.map(t => `<span class="tag-pill">${t}</span>`).join('')}
+                        </div>
                     </div>
                 `;
-                li.appendChild(titleSpan);
                 li.addEventListener('click', () => openModal(i));
                 listEl.appendChild(li);
             });
 
-            noRes.style.display = shown === 0 ? 'block' : 'none';
+            noRes.style.display = filtered.length === 0 ? 'block' : 'none';
         }
 
         function openModal(i) {
