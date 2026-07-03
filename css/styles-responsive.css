@@ -12,6 +12,10 @@ body {
     overflow: hidden;
 }
 
+p + p {
+    margin-top: 8px;
+}
+
 .container {
     display: flex;
     height: 100vh;
