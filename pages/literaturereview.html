@@ -360,6 +360,29 @@
                 </p>`
             },
 
+            {
+                title: "Intrinsic Heralding and Optimal Decoders for Non-Abelian Topological Order",
+                authors: ["Dian Jing, Pablo Sala, Liang Jiang, Ruben Verresen"],
+                link: "https://arxiv.org/pdf/2602.11258v1",
+                // citation: "Kitaev, A. (2006). Annals of Physics, 321(1), 2–111.",
+                tags: ["non-abelian anyons", "quantum error correction", "statistical-mechanics", "error threshold", "optimal decoding"],
+                dateReviewed: "15 July 2026",
+                description: `<p> This paper seems to be one of the first discussions of optimal decoding for non-abelian TO (along with R. Sajith et. al's paper titled 'Non-Clifford gates between stabilizer codes via non-Abelian topological order' which discusses heralding but does not give a specific decoding strategy). They present a general strategy for acyclic anyonic theories, and then focus on $D_4$ Topological Order (which was recently experimentally realized on Quantinuum's Trapped ion processor) for concrete study. </p>
+
+                </br>
+
+                <p>The idea is that incoherent error operators creating non-abelian anyons are not going to be perfect ribbon operators, and will generally be accompanied by the creation of intermediate anyons along the error string. We can use these intermediate anyons to 'herald' or signal the correct homology class for the actual error string.</p>
+
+                </br>
+                    
+                <p>$D_4$ TO has only one non-abelian anyon, the [2] charge, which is acyclic. Thus, they can be paired up and annihilated. Roughly, the procedure is a two-step prcoess of (a). using intermediate anyons to identify the correct (in infinite lattice limit) homology class and apply the local error operators to pair-annihilate erroneous [2] charges, and (b). annihilating intermediate (abelian) anyons once all the [2] charges have been corrected.</p>                
+
+                </br>
+
+                <p>This procedure applies more generally to other non-abelian TOs, but the system must be acyclc in order to ensure non-abelian anyons can be pair-annihilated.</p>
+                `
+            }
+
         ];
         // ─────────────────────────────────────────────────────────────────────────
 
