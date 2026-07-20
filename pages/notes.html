@@ -55,24 +55,112 @@
             margin-left: 12px;
         }
 
-        /* Free-text editable areas */
-        .notes-editable {
+        /* Right box: dated note cards */
+        .right-box-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .right-box-header h2 {
+            margin-bottom: 0;
+        }
+
+        .add-note-btn {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            background-color: #a773c9;
+            border: none;
+            border-radius: 8px;
+            color: #faf8ed;
+            cursor: pointer;
+            font-size: 1.3em;
+            line-height: 1;
+            transition: background-color 0.2s;
+        }
+
+        .add-note-btn:hover {
+            background-color: #8e5db0;
+        }
+
+        .note-cards {
+            flex: 1;
+        }
+
+        .note-card {
+            background-color: rgba(250, 248, 237, 0.05);
+            border-left: 4px solid #a773c9;
+            border-radius: 8px;
+            padding: 16px 18px;
+            margin-bottom: 16px;
+        }
+
+        .note-card-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        .note-date {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #faf8ed;
+            outline: none;
+            border-radius: 4px;
+            padding: 2px 4px;
+            margin: -2px -4px;
+        }
+
+        .note-date:focus {
+            background-color: rgba(250, 248, 237, 0.08);
+        }
+
+        .note-date:empty:before {
+            content: attr(data-placeholder);
+            opacity: 0.4;
+            font-weight: normal;
+        }
+
+        .note-delete {
+            background: none;
+            border: none;
+            color: #faf8ed;
+            opacity: 0.5;
+            cursor: pointer;
+            font-size: 1.1em;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .note-delete:hover {
+            opacity: 1;
+            color: #ff6b6b;
+        }
+
+        .note-body {
             outline: none;
             line-height: 1.6;
             font-size: 1em;
             color: #faf8ed;
             white-space: pre-wrap;
             word-wrap: break-word;
-            min-height: 80px;
+            min-height: 24px;
+            border-radius: 4px;
+            padding: 2px 4px;
+            margin: -2px -4px;
         }
 
-        .notes-editable:empty:before {
+        .note-body:focus {
+            background-color: rgba(250, 248, 237, 0.08);
+        }
+
+        .note-body:empty:before {
             content: attr(data-placeholder);
             opacity: 0.4;
-        }
-
-        .notes-right-editable {
-            flex: 1;
         }
 
         .notes-divider {
@@ -126,12 +214,37 @@
         .todo-item {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             background-color: rgba(250, 248, 237, 0.05);
             border-left: 4px solid #a773c9;
             border-radius: 8px;
             padding: 12px 14px;
             margin-bottom: 10px;
+        }
+
+        .todo-item.drag-over-top {
+            box-shadow: inset 0 2px 0 0 #a773c9;
+        }
+
+        .todo-item.drag-over-bottom {
+            box-shadow: inset 0 -2px 0 0 #a773c9;
+        }
+
+        .todo-item.dragging {
+            opacity: 0.4;
+        }
+
+        .todo-drag-handle {
+            cursor: grab;
+            opacity: 0.4;
+            flex-shrink: 0;
+            font-size: 1em;
+            letter-spacing: -1px;
+            user-select: none;
+        }
+
+        .todo-drag-handle:hover {
+            opacity: 0.8;
         }
 
         .todo-item input[type="checkbox"] {
@@ -142,9 +255,17 @@
             flex-shrink: 0;
         }
 
-        .todo-item span {
+        .todo-text {
             flex: 1;
             word-break: break-word;
+            outline: none;
+            border-radius: 4px;
+            padding: 2px 4px;
+            margin: -2px -4px;
+        }
+
+        .todo-text:focus {
+            background-color: rgba(250, 248, 237, 0.08);
         }
 
         .todo-item.completed {
@@ -152,7 +273,7 @@
             opacity: 0.7;
         }
 
-        .todo-item.completed span {
+        .todo-item.completed .todo-text {
             text-decoration: line-through;
         }
 
@@ -176,6 +297,171 @@
             opacity: 0.4;
             font-size: 0.9em;
             padding: 4px 0 0;
+        }
+
+        .todo-group-select {
+            flex-shrink: 0;
+            max-width: 90px;
+            background-color: rgba(250, 248, 237, 0.08);
+            border: 1px solid rgba(250, 248, 237, 0.2);
+            border-radius: 6px;
+            color: #faf8ed;
+            font-size: 0.8em;
+            font-family: inherit;
+            padding: 4px 6px;
+            cursor: pointer;
+        }
+
+        .todo-group-select option {
+            background-color: #44473c;
+            color: #faf8ed;
+        }
+
+        /* Task groups */
+        .group-add-row {
+            margin: 4px 0 16px;
+        }
+
+        .add-group-btn {
+            background: none;
+            border: 1px dashed rgba(250, 248, 237, 0.35);
+            border-radius: 8px;
+            color: #faf8ed;
+            opacity: 0.7;
+            cursor: pointer;
+            font-size: 0.9em;
+            padding: 8px 14px;
+            transition: opacity 0.2s, border-color 0.2s;
+        }
+
+        .add-group-btn:hover {
+            opacity: 1;
+            border-color: #a773c9;
+        }
+
+        .group-card {
+            background-color: rgba(250, 248, 237, 0.04);
+            border: 1px solid rgba(250, 248, 237, 0.15);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+        }
+
+        .group-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .group-collapse-btn {
+            background: none;
+            border: none;
+            color: #faf8ed;
+            cursor: pointer;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .group-collapse-btn .arrow {
+            display: inline-block;
+            transition: transform 0.2s;
+            font-size: 0.8em;
+        }
+
+        .group-card.collapsed .group-collapse-btn .arrow {
+            transform: rotate(-90deg);
+        }
+
+        .group-name {
+            flex: 1;
+            font-weight: bold;
+            font-size: 1.05em;
+            outline: none;
+            border-radius: 4px;
+            padding: 2px 4px;
+            margin: -2px -4px;
+        }
+
+        .group-name:focus {
+            background-color: rgba(250, 248, 237, 0.08);
+        }
+
+        .group-count {
+            opacity: 0.5;
+            font-size: 0.85em;
+            flex-shrink: 0;
+        }
+
+        .group-delete {
+            background: none;
+            border: none;
+            color: #faf8ed;
+            opacity: 0.5;
+            cursor: pointer;
+            font-size: 1.1em;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .group-delete:hover {
+            opacity: 1;
+            color: #ff6b6b;
+        }
+
+        .group-body {
+            margin-top: 12px;
+        }
+
+        .group-card.collapsed .group-body {
+            display: none;
+        }
+
+        .group-todo-list {
+            list-style: none;
+        }
+
+        .group-empty {
+            opacity: 0.4;
+            font-size: 0.85em;
+            padding: 0 0 8px;
+        }
+
+        .group-add-task-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .group-todo-input {
+            flex: 1;
+            padding: 8px 12px;
+            background-color: rgba(250, 248, 237, 0.07);
+            border: 1px solid rgba(250, 248, 237, 0.25);
+            border-radius: 8px;
+            color: #faf8ed;
+            font-size: 0.9em;
+            font-family: inherit;
+        }
+
+        .group-todo-input:focus {
+            outline: none;
+            border-color: #a773c9;
+        }
+
+        .group-todo-add-btn {
+            padding: 8px 14px;
+            background-color: #a773c9;
+            border: none;
+            border-radius: 8px;
+            color: #faf8ed;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+        }
+
+        .group-todo-add-btn:hover {
+            background-color: #8e5db0;
         }
 
         /* Completed tasks toggle */
@@ -257,11 +543,7 @@
 
     <div class="notes-page">
         <div class="notes-box notes-box-left">
-            <h2> Papers to read </h2>
-
-            <div class="notes-editable" id="leftNotes" contenteditable="true" data-placeholder="Type notes here..."></div>
-
-            <hr class="notes-divider">
+            <h2>Tasks</h2>
 
             <div class="todo-add-row">
                 <input type="text" id="todoInput" placeholder="Add a task and press Enter...">
@@ -269,6 +551,11 @@
             </div>
             <ul class="todo-list" id="todoList"></ul>
             <p class="todo-empty" id="todoEmptyHint">No tasks yet.</p>
+
+            <div class="group-add-row">
+                <button id="addGroupBtn" class="add-group-btn">+ New Group</button>
+            </div>
+            <div class="group-list" id="groupList"></div>
 
             <hr class="notes-divider">
 
@@ -280,8 +567,11 @@
         </div>
 
         <div class="notes-box notes-box-right">
-            <h2>Misc Notes</h2>
-            <div class="notes-editable notes-right-editable" id="rightNotes" contenteditable="true" data-placeholder="Jot down anything here..."></div>
+            <div class="right-box-header">
+                <button id="addNoteBtn" class="add-note-btn" title="Add note">+</button>
+                <h2>Misc Notes</h2>
+            </div>
+            <div class="note-cards" id="noteCards"></div>
         </div>
     </div>
 

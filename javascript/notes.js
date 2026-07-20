@@ -1,37 +1,33 @@
 document.addEventListener('DOMContentLoaded', function () {
     var STORAGE_KEYS = {
-        left: 'kdeoskar-notes-left',
-        right: 'kdeoskar-notes-right',
+        rightLegacy: 'kdeoskar-notes-right',
+        rightNotes: 'kdeoskar-notes-right-cards',
         todos: 'kdeoskar-notes-todos',
+        groups: 'kdeoskar-notes-groups',
         showCompleted: 'kdeoskar-notes-show-completed'
     };
 
-    var leftNotes = document.getElementById('leftNotes');
-    var rightNotes = document.getElementById('rightNotes');
     var todoInput = document.getElementById('todoInput');
     var todoAddBtn = document.getElementById('todoAddBtn');
     var todoList = document.getElementById('todoList');
     var todoEmptyHint = document.getElementById('todoEmptyHint');
+    var groupList = document.getElementById('groupList');
+    var addGroupBtn = document.getElementById('addGroupBtn');
     var completedList = document.getElementById('completedList');
     var completedToggle = document.getElementById('completedToggle');
     var completedCount = document.getElementById('completedCount');
     var saveHint = document.getElementById('saveHint');
+    var noteCards = document.getElementById('noteCards');
+    var addNoteBtn = document.getElementById('addNoteBtn');
 
     var todos = [];
+    var groups = [];
+    var notes = [];
     var saveHintTimeout = null;
+    var draggedTodoId = null;
 
-    function loadTodos() {
-        try {
-            var raw = localStorage.getItem(STORAGE_KEYS.todos);
-            todos = raw ? JSON.parse(raw) : [];
-        } catch (e) {
-            todos = [];
-        }
-    }
-
-    function persistTodos() {
-        localStorage.setItem(STORAGE_KEYS.todos, JSON.stringify(todos));
-        flashSaveHint();
+    function makeId() {
+        return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
     }
 
     function flashSaveHint() {
@@ -42,20 +38,69 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 1200);
     }
 
-    function makeId() {
-        return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    function debounce(fn, delay) {
+        var timer = null;
+        return function () {
+            var args = arguments;
+            clearTimeout(timer);
+            timer = setTimeout(function () { fn.apply(null, args); }, delay);
+        };
     }
 
-    function renderTodos() {
-        var active = todos.filter(function (t) { return !t.completed; });
-        var completed = todos.filter(function (t) { return t.completed; });
+    function groupIdOf(todo) {
+        return todo.groupId || null;
+    }
 
+    /* ---------- To-do list + groups ---------- */
+
+    function loadTodos() {
+        try {
+            var raw = localStorage.getItem(STORAGE_KEYS.todos);
+            todos = raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            todos = [];
+        }
+    }
+
+    function loadGroups() {
+        try {
+            var raw = localStorage.getItem(STORAGE_KEYS.groups);
+            groups = raw ? JSON.parse(raw) : [];
+        } catch (e) {
+            groups = [];
+        }
+    }
+
+    function persistTodos() {
+        localStorage.setItem(STORAGE_KEYS.todos, JSON.stringify(todos));
+        flashSaveHint();
+    }
+
+    function persistGroups() {
+        localStorage.setItem(STORAGE_KEYS.groups, JSON.stringify(groups));
+        flashSaveHint();
+    }
+
+    var persistTodosDebounced = debounce(persistTodos, 400);
+    var persistGroupsDebounced = debounce(persistGroups, 400);
+
+    function renderAll() {
+        renderUngrouped();
+        renderGroups();
+        renderCompleted();
+    }
+
+    function renderUngrouped() {
+        var active = todos.filter(function (t) { return !t.completed && groupIdOf(t) === null; });
         todoList.innerHTML = '';
         active.forEach(function (todo) {
             todoList.appendChild(buildTodoItem(todo));
         });
         todoEmptyHint.style.display = active.length ? 'none' : 'block';
+    }
 
+    function renderCompleted() {
+        var completed = todos.filter(function (t) { return t.completed; });
         completedList.innerHTML = '';
         completed.forEach(function (todo) {
             completedList.appendChild(buildTodoItem(todo));
@@ -63,9 +108,52 @@ document.addEventListener('DOMContentLoaded', function () {
         completedCount.textContent = completed.length;
     }
 
+    function renderGroups() {
+        groupList.innerHTML = '';
+        groups.forEach(function (group) {
+            groupList.appendChild(buildGroupCard(group));
+        });
+    }
+
+    function buildGroupSelect(todo) {
+        var select = document.createElement('select');
+        select.className = 'todo-group-select';
+        select.title = 'Move to group';
+
+        var noneOption = document.createElement('option');
+        noneOption.value = '';
+        noneOption.textContent = 'No group';
+        select.appendChild(noneOption);
+
+        groups.forEach(function (group) {
+            var option = document.createElement('option');
+            option.value = group.id;
+            option.textContent = group.name || 'Untitled';
+            select.appendChild(option);
+        });
+
+        select.value = groupIdOf(todo) || '';
+        select.addEventListener('change', function () {
+            todo.groupId = select.value || null;
+            persistTodos();
+            renderAll();
+        });
+        select.addEventListener('click', function (e) {
+            e.stopPropagation();
+        });
+        return select;
+    }
+
     function buildTodoItem(todo) {
         var li = document.createElement('li');
         li.className = 'todo-item' + (todo.completed ? ' completed' : '');
+        li.draggable = true;
+        li.dataset.id = todo.id;
+
+        var handle = document.createElement('span');
+        handle.className = 'todo-drag-handle';
+        handle.textContent = '⠿';
+        handle.title = 'Drag to reorder';
 
         var checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -73,11 +161,36 @@ document.addEventListener('DOMContentLoaded', function () {
         checkbox.addEventListener('change', function () {
             todo.completed = checkbox.checked;
             persistTodos();
-            renderTodos();
+            renderAll();
         });
 
-        var span = document.createElement('span');
-        span.textContent = todo.text;
+        var text = document.createElement('span');
+        text.className = 'todo-text';
+        text.contentEditable = 'true';
+        text.spellcheck = false;
+        text.textContent = todo.text;
+        text.addEventListener('input', function () {
+            todo.text = text.textContent;
+            persistTodosDebounced();
+        });
+        text.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                text.blur();
+            }
+        });
+        text.addEventListener('blur', function () {
+            var trimmed = text.textContent.trim();
+            if (!trimmed) {
+                todos = todos.filter(function (t) { return t.id !== todo.id; });
+                persistTodos();
+                renderAll();
+                return;
+            }
+            todo.text = trimmed;
+            text.textContent = trimmed;
+            persistTodos();
+        });
 
         var deleteBtn = document.createElement('button');
         deleteBtn.className = 'todo-delete';
@@ -86,29 +199,104 @@ document.addEventListener('DOMContentLoaded', function () {
         deleteBtn.addEventListener('click', function () {
             todos = todos.filter(function (t) { return t.id !== todo.id; });
             persistTodos();
-            renderTodos();
+            renderAll();
         });
 
+        li.appendChild(handle);
         li.appendChild(checkbox);
-        li.appendChild(span);
+        li.appendChild(text);
+        if (!todo.completed) {
+            li.appendChild(buildGroupSelect(todo));
+        }
         li.appendChild(deleteBtn);
+        wireTodoDrag(li);
         return li;
     }
 
-    function addTodo() {
-        var text = todoInput.value.trim();
-        if (!text) return;
-        todos.push({ id: makeId(), text: text, completed: false });
-        todoInput.value = '';
-        persistTodos();
-        renderTodos();
+    function clearDragIndicators(container) {
+        container.querySelectorAll('.todo-item').forEach(function (item) {
+            item.classList.remove('drag-over-top', 'drag-over-bottom');
+        });
     }
 
-    todoAddBtn.addEventListener('click', addTodo);
+    function wireTodoDrag(li) {
+        li.addEventListener('dragstart', function (e) {
+            draggedTodoId = li.dataset.id;
+            li.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            try { e.dataTransfer.setData('text/plain', li.dataset.id); } catch (err) { /* noop */ }
+        });
+
+        li.addEventListener('dragend', function () {
+            draggedTodoId = null;
+            li.classList.remove('dragging');
+            clearDragIndicators(todoList);
+            clearDragIndicators(completedList);
+            groupList.querySelectorAll('.group-todo-list').forEach(clearDragIndicators);
+        });
+
+        li.addEventListener('dragover', function (e) {
+            if (!draggedTodoId || draggedTodoId === li.dataset.id) return;
+            var draggedTodo = todos.find(function (t) { return t.id === draggedTodoId; });
+            var targetTodo = todos.find(function (t) { return t.id === li.dataset.id; });
+            if (!draggedTodo || !targetTodo) return;
+            if (draggedTodo.completed !== targetTodo.completed) return;
+            if (groupIdOf(draggedTodo) !== groupIdOf(targetTodo)) return;
+
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            var rect = li.getBoundingClientRect();
+            var before = (e.clientY - rect.top) < rect.height / 2;
+            li.classList.toggle('drag-over-top', before);
+            li.classList.toggle('drag-over-bottom', !before);
+        });
+
+        li.addEventListener('dragleave', function () {
+            li.classList.remove('drag-over-top', 'drag-over-bottom');
+        });
+
+        li.addEventListener('drop', function (e) {
+            e.preventDefault();
+            var targetId = li.dataset.id;
+            li.classList.remove('drag-over-top', 'drag-over-bottom');
+            if (!draggedTodoId || draggedTodoId === targetId) return;
+
+            var draggedIndex = todos.findIndex(function (t) { return t.id === draggedTodoId; });
+            var targetIndex = todos.findIndex(function (t) { return t.id === targetId; });
+            if (draggedIndex === -1 || targetIndex === -1) return;
+            if (todos[draggedIndex].completed !== todos[targetIndex].completed) return;
+            if (groupIdOf(todos[draggedIndex]) !== groupIdOf(todos[targetIndex])) return;
+
+            var rect = li.getBoundingClientRect();
+            var before = (e.clientY - rect.top) < rect.height / 2;
+
+            var dragged = todos.splice(draggedIndex, 1)[0];
+            targetIndex = todos.findIndex(function (t) { return t.id === targetId; });
+            var insertAt = before ? targetIndex : targetIndex + 1;
+            todos.splice(insertAt, 0, dragged);
+
+            persistTodos();
+            renderAll();
+        });
+    }
+
+    function addTodo(text, groupId) {
+        var trimmed = text.trim();
+        if (!trimmed) return;
+        todos.push({ id: makeId(), text: trimmed, completed: false, groupId: groupId || null });
+        persistTodos();
+        renderAll();
+    }
+
+    todoAddBtn.addEventListener('click', function () {
+        addTodo(todoInput.value, null);
+        todoInput.value = '';
+    });
     todoInput.addEventListener('keydown', function (e) {
         if (e.key === 'Enter') {
             e.preventDefault();
-            addTodo();
+            addTodo(todoInput.value, null);
+            todoInput.value = '';
         }
     });
 
@@ -117,31 +305,262 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem(STORAGE_KEYS.showCompleted, completedToggle.checked ? '1' : '0');
     });
 
-    function debounce(fn, delay) {
-        var timer = null;
-        return function () {
-            clearTimeout(timer);
-            timer = setTimeout(fn, delay);
-        };
+    /* ---------- Groups ---------- */
+
+    function buildGroupCard(group) {
+        var card = document.createElement('div');
+        card.className = 'group-card' + (group.collapsed ? ' collapsed' : '');
+        card.dataset.id = group.id;
+
+        var header = document.createElement('div');
+        header.className = 'group-header';
+
+        var collapseBtn = document.createElement('button');
+        collapseBtn.className = 'group-collapse-btn';
+        collapseBtn.title = 'Collapse/expand group';
+        collapseBtn.innerHTML = '<span class="arrow">▶</span>';
+        collapseBtn.addEventListener('click', function () {
+            group.collapsed = !group.collapsed;
+            card.classList.toggle('collapsed', group.collapsed);
+            persistGroups();
+        });
+
+        var nameEl = document.createElement('span');
+        nameEl.className = 'group-name';
+        nameEl.contentEditable = 'true';
+        nameEl.spellcheck = false;
+        nameEl.dataset.placeholder = 'Group name';
+        nameEl.textContent = group.name;
+        nameEl.addEventListener('input', function () {
+            group.name = nameEl.textContent;
+            persistGroupsDebounced();
+        });
+        nameEl.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                nameEl.blur();
+            }
+        });
+        nameEl.addEventListener('blur', function () {
+            var trimmed = nameEl.textContent.trim() || 'Untitled';
+            group.name = trimmed;
+            nameEl.textContent = trimmed;
+            persistGroups();
+            renderUngrouped();
+            renderCompleted();
+        });
+
+        var groupTodos = todos.filter(function (t) { return groupIdOf(t) === group.id && !t.completed; });
+        var count = document.createElement('span');
+        count.className = 'group-count';
+        count.textContent = '(' + groupTodos.length + ')';
+
+        var deleteBtn = document.createElement('button');
+        deleteBtn.className = 'group-delete';
+        deleteBtn.textContent = '×';
+        deleteBtn.title = 'Delete group';
+        deleteBtn.addEventListener('click', function () {
+            todos.forEach(function (t) {
+                if (groupIdOf(t) === group.id) t.groupId = null;
+            });
+            groups = groups.filter(function (g) { return g.id !== group.id; });
+            persistTodos();
+            persistGroups();
+            renderAll();
+        });
+
+        header.appendChild(collapseBtn);
+        header.appendChild(nameEl);
+        header.appendChild(count);
+        header.appendChild(deleteBtn);
+
+        var body = document.createElement('div');
+        body.className = 'group-body';
+
+        var list = document.createElement('ul');
+        list.className = 'todo-list group-todo-list';
+        groupTodos.forEach(function (todo) {
+            list.appendChild(buildTodoItem(todo));
+        });
+
+        var emptyHint = document.createElement('p');
+        emptyHint.className = 'group-empty';
+        emptyHint.textContent = 'No tasks in this group.';
+        emptyHint.style.display = groupTodos.length ? 'none' : 'block';
+
+        var addRow = document.createElement('div');
+        addRow.className = 'group-add-task-row';
+
+        var input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'group-todo-input';
+        input.placeholder = 'Add task to this group...';
+
+        var addBtn = document.createElement('button');
+        addBtn.className = 'group-todo-add-btn';
+        addBtn.textContent = 'Add';
+
+        function submit() {
+            addTodo(input.value, group.id);
+            input.value = '';
+        }
+        addBtn.addEventListener('click', submit);
+        input.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                submit();
+            }
+        });
+
+        addRow.appendChild(input);
+        addRow.appendChild(addBtn);
+
+        body.appendChild(list);
+        body.appendChild(emptyHint);
+        body.appendChild(addRow);
+
+        card.appendChild(header);
+        card.appendChild(body);
+        return card;
     }
 
-    function wireEditable(el, key) {
-        var saved = localStorage.getItem(key);
-        if (saved !== null) {
-            el.innerHTML = saved;
+    addGroupBtn.addEventListener('click', function () {
+        var group = { id: makeId(), name: 'New Group', collapsed: false };
+        groups.push(group);
+        persistGroups();
+        renderGroups();
+        var nameEl = groupList.querySelector('.group-card[data-id="' + group.id + '"] .group-name');
+        if (nameEl) {
+            var range = document.createRange();
+            range.selectNodeContents(nameEl);
+            var sel = window.getSelection();
+            sel.removeAllRanges();
+            sel.addRange(range);
+            nameEl.focus();
         }
-        var save = debounce(function () {
-            localStorage.setItem(key, el.innerHTML);
-            flashSaveHint();
-        }, 400);
-        el.addEventListener('input', save);
+    });
+
+    /* ---------- Right box: dated note cards ---------- */
+
+    function todayLabel() {
+        return new Date().toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
     }
+
+    function loadNotes() {
+        try {
+            var raw = localStorage.getItem(STORAGE_KEYS.rightNotes);
+            notes = raw ? JSON.parse(raw) : null;
+        } catch (e) {
+            notes = null;
+        }
+
+        if (notes === null) {
+            var legacy = localStorage.getItem(STORAGE_KEYS.rightLegacy);
+            notes = [];
+            if (legacy) {
+                notes.push({ id: makeId(), date: todayLabel(), text: legacy });
+            }
+        }
+    }
+
+    function persistNotes() {
+        localStorage.setItem(STORAGE_KEYS.rightNotes, JSON.stringify(notes));
+        flashSaveHint();
+    }
+
+    var persistNotesDebounced = debounce(persistNotes, 400);
+
+    function renderNotes() {
+        noteCards.innerHTML = '';
+        notes.forEach(function (note) {
+            noteCards.appendChild(buildNoteCard(note));
+        });
+    }
+
+    function buildNoteCard(note) {
+        var card = document.createElement('div');
+        card.className = 'note-card';
+        card.dataset.id = note.id;
+
+        var header = document.createElement('div');
+        header.className = 'note-card-header';
+
+        var dateEl = document.createElement('span');
+        dateEl.className = 'note-date';
+        dateEl.contentEditable = 'true';
+        dateEl.spellcheck = false;
+        dateEl.dataset.placeholder = 'Date';
+        dateEl.textContent = note.date;
+        dateEl.addEventListener('input', function () {
+            note.date = dateEl.textContent;
+            persistNotesDebounced();
+        });
+        dateEl.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                dateEl.blur();
+            }
+        });
+        dateEl.addEventListener('blur', function () {
+            note.date = dateEl.textContent;
+            persistNotes();
+        });
+
+        var deleteBtn = document.createElement('button');
+        deleteBtn.className = 'note-delete';
+        deleteBtn.textContent = '×';
+        deleteBtn.title = 'Delete note';
+        deleteBtn.addEventListener('click', function () {
+            notes = notes.filter(function (n) { return n.id !== note.id; });
+            persistNotes();
+            renderNotes();
+        });
+
+        header.appendChild(dateEl);
+        header.appendChild(deleteBtn);
+
+        var body = document.createElement('div');
+        body.className = 'note-body';
+        body.contentEditable = 'true';
+        body.dataset.placeholder = 'Write something...';
+        body.innerHTML = note.text;
+        body.addEventListener('input', function () {
+            note.text = body.innerHTML;
+            persistNotesDebounced();
+        });
+        body.addEventListener('blur', function () {
+            note.text = body.innerHTML;
+            persistNotes();
+        });
+
+        card.appendChild(header);
+        card.appendChild(body);
+        return card;
+    }
+
+    addNoteBtn.addEventListener('click', function () {
+        var note = { id: makeId(), date: todayLabel(), text: '' };
+        notes.unshift(note);
+        persistNotes();
+        renderNotes();
+        var card = noteCards.querySelector('.note-card[data-id="' + note.id + '"] .note-body');
+        if (card) card.focus();
+    });
+
+    /* ---------- Init ---------- */
 
     loadTodos();
-    renderTodos();
+    loadGroups();
+    renderAll();
     completedToggle.checked = localStorage.getItem(STORAGE_KEYS.showCompleted) === '1';
     completedList.classList.toggle('show', completedToggle.checked);
 
-    wireEditable(leftNotes, STORAGE_KEYS.left);
-    wireEditable(rightNotes, STORAGE_KEYS.right);
+    loadNotes();
+    renderNotes();
+
+    window.addEventListener('beforeunload', function () {
+        localStorage.setItem(STORAGE_KEYS.todos, JSON.stringify(todos));
+        localStorage.setItem(STORAGE_KEYS.groups, JSON.stringify(groups));
+        localStorage.setItem(STORAGE_KEYS.rightNotes, JSON.stringify(notes));
+    });
 });
