@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', function () {
     var saveHint = document.getElementById('saveHint');
     var noteCards = document.getElementById('noteCards');
     var addNoteBtn = document.getElementById('addNoteBtn');
+    var signInBtn = document.getElementById('signInBtn');
+    var signOutBtn = document.getElementById('signOutBtn');
+    var syncStatus = document.getElementById('syncStatus');
 
     var todos = [];
     var groups = [];
@@ -74,11 +77,13 @@ document.addEventListener('DOMContentLoaded', function () {
     function persistTodos() {
         localStorage.setItem(STORAGE_KEYS.todos, JSON.stringify(todos));
         flashSaveHint();
+        pushCloud('todos');
     }
 
     function persistGroups() {
         localStorage.setItem(STORAGE_KEYS.groups, JSON.stringify(groups));
         flashSaveHint();
+        pushCloud('groups');
     }
 
     var persistTodosDebounced = debounce(persistTodos, 400);
@@ -147,13 +152,19 @@ document.addEventListener('DOMContentLoaded', function () {
     function buildTodoItem(todo) {
         var li = document.createElement('li');
         li.className = 'todo-item' + (todo.completed ? ' completed' : '');
-        li.draggable = true;
+        li.draggable = false;
         li.dataset.id = todo.id;
 
         var handle = document.createElement('span');
         handle.className = 'todo-drag-handle';
         handle.textContent = '⠿';
         handle.title = 'Drag to reorder';
+        handle.addEventListener('mousedown', function () {
+            li.draggable = true;
+        });
+        handle.addEventListener('mouseup', function () {
+            li.draggable = false;
+        });
 
         var checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -229,6 +240,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         li.addEventListener('dragend', function () {
             draggedTodoId = null;
+            li.draggable = false;
             li.classList.remove('dragging');
             clearDragIndicators(todoList);
             clearDragIndicators(completedList);
@@ -466,6 +478,7 @@ document.addEventListener('DOMContentLoaded', function () {
     function persistNotes() {
         localStorage.setItem(STORAGE_KEYS.rightNotes, JSON.stringify(notes));
         flashSaveHint();
+        pushCloud('notes');
     }
 
     var persistNotesDebounced = debounce(persistNotes, 400);
@@ -502,6 +515,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         dateEl.addEventListener('blur', function () {
+            if (!dateEl.textContent.trim()) dateEl.innerHTML = '';
             note.date = dateEl.textContent;
             persistNotes();
         });
@@ -529,6 +543,7 @@ document.addEventListener('DOMContentLoaded', function () {
             persistNotesDebounced();
         });
         body.addEventListener('blur', function () {
+            if (!body.textContent.trim()) body.innerHTML = '';
             note.text = body.innerHTML;
             persistNotes();
         });
@@ -547,6 +562,115 @@ document.addEventListener('DOMContentLoaded', function () {
         if (card) card.focus();
     });
 
+    /* ---------- Cloud sync (Firebase) ---------- */
+
+    var firebaseReady = !!(window.firebase && window.FIREBASE_CONFIG &&
+        window.FIREBASE_CONFIG.apiKey && window.FIREBASE_CONFIG.apiKey.indexOf('YOUR_') !== 0);
+    var auth = null;
+    var db = null;
+    var currentUser = null;
+    var cloudUnsubscribers = [];
+
+    if (firebaseReady) {
+        firebase.initializeApp(window.FIREBASE_CONFIG);
+        auth = firebase.auth();
+        db = firebase.firestore();
+        if (window.FIREBASE_USE_EMULATORS) {
+            auth.useEmulator('http://127.0.0.1:9099');
+            db.useEmulator('127.0.0.1', 8080);
+        }
+    }
+
+    function userDocRef(kind) {
+        return db.collection('users').doc(currentUser.uid).collection('data').doc(kind);
+    }
+
+    function localArrayFor(kind) {
+        if (kind === 'todos') return todos;
+        if (kind === 'groups') return groups;
+        return notes;
+    }
+
+    function pushCloud(kind) {
+        if (!currentUser) return;
+        userDocRef(kind).set({ items: localArrayFor(kind) }).catch(function (err) {
+            console.error('Cloud save failed (' + kind + '):', err);
+        });
+    }
+
+    function syncDoc(kind, setLocal, rerender) {
+        var ref = userDocRef(kind);
+
+        // Resolve whether this is a first-ever sign-in (no cloud doc yet,
+        // so migrate current local data up) BEFORE attaching the listener.
+        // Attaching onSnapshot first would race the migration write: the
+        // emulator/server can report "document doesn't exist" first,
+        // which would wipe local data on the client rather than wait.
+        ref.get().then(function (snap) {
+            if (!snap.exists) {
+                return ref.set({ items: localArrayFor(kind) });
+            }
+        }).catch(function (err) {
+            console.error('Cloud init failed (' + kind + '):', err);
+        }).then(function () {
+            var unsub = ref.onSnapshot(function (snap) {
+                var data = snap.data();
+                var incoming = data ? data.items : [];
+                // Skip if this is just our own write echoing back — avoids
+                // blowing away an in-progress edit/focus for a no-op update.
+                if (JSON.stringify(incoming) === JSON.stringify(localArrayFor(kind))) return;
+                setLocal(incoming);
+                rerender();
+            }, function (err) {
+                console.error('Cloud sync failed (' + kind + '):', err);
+            });
+            cloudUnsubscribers.push(unsub);
+        });
+    }
+
+    function startCloudSync() {
+        stopCloudSync();
+        syncDoc('todos', function (items) { todos = items || []; }, renderAll);
+        syncDoc('groups', function (items) { groups = items || []; }, renderAll);
+        syncDoc('notes', function (items) { notes = items || []; }, renderNotes);
+    }
+
+    function stopCloudSync() {
+        cloudUnsubscribers.forEach(function (unsub) { unsub(); });
+        cloudUnsubscribers = [];
+    }
+
+    if (firebaseReady) {
+        signInBtn.style.display = '';
+
+        signInBtn.addEventListener('click', function () {
+            var provider = new firebase.auth.GoogleAuthProvider();
+            auth.signInWithPopup(provider).catch(function (err) {
+                console.error('Sign-in failed:', err);
+                syncStatus.textContent = 'Sign-in failed';
+            });
+        });
+
+        signOutBtn.addEventListener('click', function () {
+            auth.signOut();
+        });
+
+        auth.onAuthStateChanged(function (user) {
+            currentUser = user;
+            if (user) {
+                signInBtn.style.display = 'none';
+                signOutBtn.style.display = '';
+                syncStatus.textContent = 'Synced as ' + (user.displayName || user.email || 'you');
+                startCloudSync();
+            } else {
+                signInBtn.style.display = '';
+                signOutBtn.style.display = 'none';
+                syncStatus.textContent = '';
+                stopCloudSync();
+            }
+        });
+    }
+
     /* ---------- Init ---------- */
 
     loadTodos();
@@ -562,5 +686,10 @@ document.addEventListener('DOMContentLoaded', function () {
         localStorage.setItem(STORAGE_KEYS.todos, JSON.stringify(todos));
         localStorage.setItem(STORAGE_KEYS.groups, JSON.stringify(groups));
         localStorage.setItem(STORAGE_KEYS.rightNotes, JSON.stringify(notes));
+        if (currentUser) {
+            pushCloud('todos');
+            pushCloud('groups');
+            pushCloud('notes');
+        }
     });
 });

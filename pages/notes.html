@@ -55,6 +55,32 @@
             margin-left: 12px;
         }
 
+        .notes-topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sync-status {
+            font-size: 0.85em;
+            opacity: 0.6;
+        }
+
+        .sync-btn {
+            background: none;
+            border: 1px solid rgba(250, 248, 237, 0.3);
+            border-radius: 8px;
+            color: #faf8ed;
+            cursor: pointer;
+            font-size: 0.85em;
+            padding: 6px 12px;
+            transition: border-color 0.2s, opacity 0.2s;
+        }
+
+        .sync-btn:hover {
+            border-color: #a773c9;
+        }
+
         /* Right box: dated note cards */
         .right-box-header {
             display: flex;
@@ -538,7 +564,12 @@
 <body>
     <div class="notes-topbar">
         <a href="../index.html" class="back-link">← Back</a>
-        <span class="notes-save-hint" id="saveHint"></span>
+        <div class="notes-topbar-right">
+            <span class="notes-save-hint" id="saveHint"></span>
+            <span class="sync-status" id="syncStatus"></span>
+            <button id="signInBtn" class="sync-btn" style="display:none;">Sign in to sync</button>
+            <button id="signOutBtn" class="sync-btn" style="display:none;">Sign out</button>
+        </div>
     </div>
 
     <div class="notes-page">
@@ -575,6 +606,10 @@
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+    <script src="../javascript/firebase-config.js"></script>
     <script src="../javascript/notes.js"></script>
 </body>
 </html>
