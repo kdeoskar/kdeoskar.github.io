@@ -381,6 +381,30 @@
 
                 <p>This procedure applies more generally to other non-abelian TOs, but the system must be acyclic in order to ensure non-abelian anyons can be pair-annihilated. So, this approach doesn't work for systems like $\\mathcal{D}(S_3)$ (which is universal for quantum computation and has recently been experimentally realized as well) which have cyclic anyons (i.e. anyonic species with fusion rules of the form $a \\times a = a + \\cdots$).</p>
                 `
+            },
+
+            {
+                title: "Stability and Loop Models from Decohering Non-Abelian Topological Order",
+                authors: ["Pablo Sala, Ruben Verresen"],
+                link: "https://arxiv.org/pdf/2409.12230v2",
+                // citation: "Kitaev, A. (2006). Annals of Physics, 321(1), 2–111.",
+                tags: ["non-abelian anyons", "quantum error correction", "statistical-mechanics", "decoherence", "loop models"],
+                dateReviewed: "23 July 2026",
+                description: `<p> Sala and Verresen identify stat-mech models (namely, the O(N) Loop Models) as the way to understand proliferation of non-abelian anyons. O(N) Loop Models are stat-mech models of closed loops with parititon functions of the form $$ \\mathcal{Z}(t, N) = \\sum_{loops L} t^{|L|} N^{C(L)} $$ </p> where $t$ is the 'string tension per unit length' of a loop and $N$ is a topological weight, with C(L) being the number of loops in a configuration. These models on various lattices and associated phase diagrams have been studied in the past, and they display a tranition between a short-loop phase and a proliferated/condensed/long-range loop phase, as a function of $t$ and $N$. In particular, the long-range phase does not exist when $t > \\frac{1}{N}$ for the square lattice.</p>
+
+                </br>
+
+                <p>They show that decohering non-abelian anyon species $a$ with quantum dimension $d_a$ leads to a loop model with topological weight $N = d_{a}$, where the loops represent collections of decohered sites. If the quantum dimension is large enough, it prevents the proliferation of these loops (since $d_a$ plays the role of $N$). Further, they show that if loops remain short-ranged then the quantum state remains in the same Topological Order. </p>
+
+                </br>
+
+                <p>As a concrete case, the condiitons under which proliferation of erroneous anyons in a quantum double model $\\mathcal{D}(G)$ are studied and it is shown, for example, that if $|[g]| \\geq 3$ for $g \\in G$ then the non-Abelian topological memory is robust against $X_g$ noise! (where $X_g$ is the unitary acting as $X_g|h\\rangle = |gh\\rangle$). </p>
+
+                
+                </br>
+
+                <p>This paper has a <a href="https://arxiv.org/abs/2409.12948">companion paper</a> which discusses decoherence and wavefunction deformation for $D_4$ topological order in much more detail. </p>
+                `
             }
 
         ];
