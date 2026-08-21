@@ -322,10 +322,22 @@ document.addEventListener('DOMContentLoaded', function () {
     function buildGroupCard(group) {
         var card = document.createElement('div');
         card.className = 'group-card' + (group.collapsed ? ' collapsed' : '');
+        card.draggable = false;
         card.dataset.id = group.id;
 
         var header = document.createElement('div');
         header.className = 'group-header';
+
+        var dragHandle = document.createElement('span');
+        dragHandle.className = 'group-drag-handle';
+        dragHandle.textContent = '⠿';
+        dragHandle.title = 'Drag to reorder group';
+        dragHandle.addEventListener('mousedown', function () {
+            card.draggable = true;
+        });
+        dragHandle.addEventListener('mouseup', function () {
+            card.draggable = false;
+        });
 
         var collapseBtn = document.createElement('button');
         collapseBtn.className = 'group-collapse-btn';
@@ -381,6 +393,7 @@ document.addEventListener('DOMContentLoaded', function () {
             renderAll();
         });
 
+        header.appendChild(dragHandle);
         header.appendChild(collapseBtn);
         header.appendChild(nameEl);
         header.appendChild(count);
@@ -433,7 +446,64 @@ document.addEventListener('DOMContentLoaded', function () {
 
         card.appendChild(header);
         card.appendChild(body);
+        wireGroupDrag(card);
         return card;
+    }
+
+    var draggedGroupId = null;
+
+    function wireGroupDrag(card) {
+        card.addEventListener('dragstart', function (e) {
+            draggedGroupId = card.dataset.id;
+            card.classList.add('dragging');
+            e.dataTransfer.effectAllowed = 'move';
+            try { e.dataTransfer.setData('text/plain', card.dataset.id); } catch (err) { /* noop */ }
+        });
+
+        card.addEventListener('dragend', function () {
+            draggedGroupId = null;
+            card.draggable = false;
+            card.classList.remove('dragging');
+            groupList.querySelectorAll('.group-card').forEach(function (item) {
+                item.classList.remove('drag-over-top', 'drag-over-bottom');
+            });
+        });
+
+        card.addEventListener('dragover', function (e) {
+            if (!draggedGroupId || draggedGroupId === card.dataset.id) return;
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            var rect = card.getBoundingClientRect();
+            var before = (e.clientY - rect.top) < rect.height / 2;
+            card.classList.toggle('drag-over-top', before);
+            card.classList.toggle('drag-over-bottom', !before);
+        });
+
+        card.addEventListener('dragleave', function () {
+            card.classList.remove('drag-over-top', 'drag-over-bottom');
+        });
+
+        card.addEventListener('drop', function (e) {
+            e.preventDefault();
+            var targetId = card.dataset.id;
+            card.classList.remove('drag-over-top', 'drag-over-bottom');
+            if (!draggedGroupId || draggedGroupId === targetId) return;
+
+            var draggedIndex = groups.findIndex(function (g) { return g.id === draggedGroupId; });
+            var targetIndex = groups.findIndex(function (g) { return g.id === targetId; });
+            if (draggedIndex === -1 || targetIndex === -1) return;
+
+            var rect = card.getBoundingClientRect();
+            var before = (e.clientY - rect.top) < rect.height / 2;
+
+            var dragged = groups.splice(draggedIndex, 1)[0];
+            targetIndex = groups.findIndex(function (g) { return g.id === targetId; });
+            var insertAt = before ? targetIndex : targetIndex + 1;
+            groups.splice(insertAt, 0, dragged);
+
+            persistGroups();
+            renderGroups();
+        });
     }
 
     addGroupBtn.addEventListener('click', function () {
