@@ -22,15 +22,30 @@ document.addEventListener('DOMContentLoaded', function () {
     var signInBtn = document.getElementById('signInBtn');
     var signOutBtn = document.getElementById('signOutBtn');
     var syncStatus = document.getElementById('syncStatus');
+    var taskSearchInput = document.getElementById('taskSearchInput');
+    var noteSearchInput = document.getElementById('noteSearchInput');
+    var notesEmptyHint = document.getElementById('notesEmptyHint');
 
     var todos = [];
     var groups = [];
     var notes = [];
     var saveHintTimeout = null;
     var draggedTodoId = null;
+    var taskSearchQuery = '';
+    var noteSearchQuery = '';
 
     function makeId() {
         return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    }
+
+    function matchesQuery(text, query) {
+        return !query || (text || '').toLowerCase().indexOf(query) !== -1;
+    }
+
+    function htmlToText(html) {
+        var scratch = document.createElement('div');
+        scratch.innerHTML = html || '';
+        return scratch.textContent || '';
     }
 
     function flashSaveHint() {
@@ -96,16 +111,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderUngrouped() {
+        var query = taskSearchQuery;
         var active = todos.filter(function (t) { return !t.completed && groupIdOf(t) === null; });
+        if (query) active = active.filter(function (t) { return matchesQuery(t.text, query); });
         todoList.innerHTML = '';
         active.forEach(function (todo) {
             todoList.appendChild(buildTodoItem(todo));
         });
+        todoEmptyHint.textContent = query ? 'No matching tasks.' : 'No tasks yet.';
         todoEmptyHint.style.display = active.length ? 'none' : 'block';
     }
 
     function renderCompleted() {
+        var query = taskSearchQuery;
         var completed = todos.filter(function (t) { return t.completed; });
+        if (query) completed = completed.filter(function (t) { return matchesQuery(t.text, query); });
         completedList.innerHTML = '';
         completed.forEach(function (todo) {
             completedList.appendChild(buildTodoItem(todo));
@@ -114,9 +134,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function renderGroups() {
+        var query = taskSearchQuery;
         groupList.innerHTML = '';
         groups.forEach(function (group) {
-            groupList.appendChild(buildGroupCard(group));
+            var card = buildGroupCard(group, query);
+            if (card) groupList.appendChild(card);
         });
     }
 
@@ -292,9 +314,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function clearTaskSearch() {
+        if (!taskSearchQuery) return;
+        taskSearchQuery = '';
+        taskSearchInput.value = '';
+    }
+
     function addTodo(text, groupId) {
         var trimmed = text.trim();
         if (!trimmed) return;
+        clearTaskSearch();
         todos.push({ id: makeId(), text: trimmed, completed: false, groupId: groupId || null });
         persistTodos();
         renderAll();
@@ -319,7 +348,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* ---------- Groups ---------- */
 
-    function buildGroupCard(group) {
+    function buildGroupCard(group, query) {
+        var nameMatches = matchesQuery(group.name, query);
+        var allGroupTodos = todos.filter(function (t) { return groupIdOf(t) === group.id && !t.completed; });
+        var groupTodos = nameMatches
+            ? allGroupTodos
+            : allGroupTodos.filter(function (t) { return matchesQuery(t.text, query); });
+        if (query && !nameMatches && groupTodos.length === 0) return null;
+
         var card = document.createElement('div');
         card.className = 'group-card' + (group.collapsed ? ' collapsed' : '');
         card.draggable = false;
@@ -374,7 +410,6 @@ document.addEventListener('DOMContentLoaded', function () {
             renderCompleted();
         });
 
-        var groupTodos = todos.filter(function (t) { return groupIdOf(t) === group.id && !t.completed; });
         var count = document.createElement('span');
         count.className = 'group-count';
         count.textContent = '(' + groupTodos.length + ')';
@@ -410,7 +445,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         var emptyHint = document.createElement('p');
         emptyHint.className = 'group-empty';
-        emptyHint.textContent = 'No tasks in this group.';
+        emptyHint.textContent = query ? 'No matching tasks.' : 'No tasks in this group.';
         emptyHint.style.display = groupTodos.length ? 'none' : 'block';
 
         var addRow = document.createElement('div');
@@ -507,10 +542,11 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     addGroupBtn.addEventListener('click', function () {
+        clearTaskSearch();
         var group = { id: makeId(), name: 'New Group', collapsed: false };
         groups.push(group);
         persistGroups();
-        renderGroups();
+        renderAll();
         var nameEl = groupList.querySelector('.group-card[data-id="' + group.id + '"] .group-name');
         if (nameEl) {
             var range = document.createRange();
@@ -554,10 +590,18 @@ document.addEventListener('DOMContentLoaded', function () {
     var persistNotesDebounced = debounce(persistNotes, 400);
 
     function renderNotes() {
+        var query = noteSearchQuery;
+        var visible = notes;
+        if (query) {
+            visible = notes.filter(function (note) {
+                return matchesQuery(note.date, query) || matchesQuery(htmlToText(note.text), query);
+            });
+        }
         noteCards.innerHTML = '';
-        notes.forEach(function (note) {
+        visible.forEach(function (note) {
             noteCards.appendChild(buildNoteCard(note));
         });
+        notesEmptyHint.style.display = (query && visible.length === 0) ? 'block' : 'none';
     }
 
     function buildNoteCard(note) {
@@ -624,6 +668,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     addNoteBtn.addEventListener('click', function () {
+        noteSearchQuery = '';
+        noteSearchInput.value = '';
         var note = { id: makeId(), date: todayLabel(), text: '' };
         notes.unshift(note);
         persistNotes();
@@ -740,6 +786,16 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
+
+    taskSearchInput.addEventListener('input', function () {
+        taskSearchQuery = taskSearchInput.value.trim().toLowerCase();
+        renderAll();
+    });
+
+    noteSearchInput.addEventListener('input', function () {
+        noteSearchQuery = noteSearchInput.value.trim().toLowerCase();
+        renderNotes();
+    });
 
     /* ---------- Init ---------- */
 

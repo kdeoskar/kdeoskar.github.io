@@ -195,6 +195,44 @@
             margin: 24px 0;
         }
 
+        /* Search */
+        .search-row {
+            margin-bottom: 14px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 9px 14px;
+            background-color: rgba(250, 248, 237, 0.06);
+            border: 1px solid rgba(250, 248, 237, 0.2);
+            border-radius: 8px;
+            color: #faf8ed;
+            font-size: 0.9em;
+            font-family: inherit;
+        }
+
+        .search-input::placeholder {
+            color: #faf8ed;
+            opacity: 0.4;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #a773c9;
+        }
+
+        .note-search-input {
+            width: auto;
+            flex: 1;
+            max-width: 220px;
+            margin-left: auto;
+        }
+
+        .notes-empty-hint {
+            opacity: 0.4;
+            font-size: 0.9em;
+        }
+
         /* To-do input row */
         .todo-add-row {
             display: flex;
@@ -601,6 +639,10 @@
         <div class="notes-box notes-box-left">
             <h2>Tasks</h2>
 
+            <div class="search-row">
+                <input type="text" id="taskSearchInput" class="search-input" placeholder="Search tasks...">
+            </div>
+
             <div class="todo-add-row">
                 <input type="text" id="todoInput" placeholder="Add a task and press Enter...">
                 <button id="todoAddBtn">Add</button>
@@ -626,8 +668,10 @@
             <div class="right-box-header">
                 <button id="addNoteBtn" class="add-note-btn" title="Add note">+</button>
                 <h2>Misc Notes</h2>
+                <input type="text" id="noteSearchInput" class="search-input note-search-input" placeholder="Search notes...">
             </div>
             <div class="note-cards" id="noteCards"></div>
+            <p class="notes-empty-hint" id="notesEmptyHint" style="display:none;">No matching notes.</p>
         </div>
     </div>
 
