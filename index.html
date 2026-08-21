@@ -6,10 +6,29 @@
     <title>Keshav Deoskar</title>
     <meta name="author" content="Keshav Deoskar">
     <meta name="description" content="Official website of Keshav Deoskar. I will be starting a PhD in Physics at the University of Sydney's Quantum Theory Group, where I will be supervised by Dominic Williamson and Stephen Bartlett. I'm widely interested in topological phenomena, but I hope to focus on Topological Quantum Computing and Error Correction during grad school. Prior to this I completed a B.S. in Engineering Physics at UC Berkeley.">
-    <link rel="stylesheet" href="css/styles-responsive.css">
+    <!-- <link rel="stylesheet" href="css/styles-responsive.css"> -->
+    <link rel="stylesheet" href="css/stylesresponsive.css">
+
+    <script>
+        // Applied to <html> (not <body>) and run synchronously here, before
+        // the rest of the page parses, so a returning visitor who prefers
+        // the stacked layout doesn't see a flash of the side-by-side one.
+        if (localStorage.getItem('kdeoskar-index-layout') === 'stacked') {
+            document.documentElement.classList.add('stacked-layout');
+        }
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            const layoutToggle = document.getElementById('layoutToggle');
+            layoutToggle.addEventListener('click', function() {
+                document.documentElement.classList.toggle('stacked-layout');
+                localStorage.setItem(
+                    'kdeoskar-index-layout',
+                    document.documentElement.classList.contains('stacked-layout') ? 'stacked' : 'side-by-side'
+                );
+            });
+
             const toggle = document.getElementById('friendsToggle');
             const list = document.getElementById('friendsList');
             const arrow = toggle.querySelector('.arrow');
@@ -147,5 +166,12 @@
                 </li> -->
         </div>
     </div>
+
+    <button id="layoutToggle" class="layout-toggle" title="Toggle layout" aria-label="Toggle stacked/side-by-side layout">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="8" height="18" rx="2"></rect>
+            <rect x="13" y="3" width="8" height="18" rx="2"></rect>
+        </svg>
+    </button>
 </body>
 </html>
