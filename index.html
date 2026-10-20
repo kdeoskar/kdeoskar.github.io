@@ -10,31 +10,25 @@
     <link rel="stylesheet" href="css/stylesresponsive.css">
 
     <script>
-        // Applied to <html> (not <body>) and run synchronously here, before
-        // the rest of the page parses, so a returning visitor who prefers
-        // the stacked layout doesn't see a flash of the side-by-side one.
-        if (localStorage.getItem('kdeoskar-index-layout') === 'stacked') {
-            document.documentElement.classList.add('stacked-layout');
-        }
-    </script>
+        // Every .dropdown-toggle opens/closes the .dropdown-content right after it.
+        // To start a box expanded, add the class "show" to its .dropdown-content.
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
+                const content = toggle.nextElementSibling;
+                const arrow = toggle.querySelector('.arrow');
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const layoutToggle = document.getElementById('layoutToggle');
-            layoutToggle.addEventListener('click', function() {
-                document.documentElement.classList.toggle('stacked-layout');
-                localStorage.setItem(
-                    'kdeoskar-index-layout',
-                    document.documentElement.classList.contains('stacked-layout') ? 'stacked' : 'side-by-side'
-                );
-            });
+                function sync() {
+                    const open = content.classList.contains('show');
+                    content.style.maxHeight = open ? content.scrollHeight + 'px' : null;
+                    arrow.classList.toggle('rotated', open);
+                }
 
-            const toggle = document.getElementById('friendsToggle');
-            const list = document.getElementById('friendsList');
-            const arrow = toggle.querySelector('.arrow');
-            toggle.addEventListener('click', function() {
-                list.classList.toggle('show');
-                arrow.classList.toggle('rotated');
+                toggle.addEventListener('click', function () {
+                    content.classList.toggle('show');
+                    sync();
+                });
+                window.addEventListener('resize', sync);
+                sync();
             });
         });
     </script>
@@ -42,13 +36,14 @@
   </head>
 <body>
     <div class="container">
-        <div class="left-box">
+
+        <!-- Main box: intro + social links -->
+        <div class="box">
             <h1>Keshav Deoskar</h1>
-            <!-- <p class="bio"> -->
             <div class="intro">
                 <div class="intro-text">
                     <p class="left-blurb">
-                        Hi! I'm Keshav. I will be starting a PhD in Physics at the University of Sydney's <a href="https://quantum.sydney.edu.au/research/quantum-theory-group/" target="_blank">Quantum Theory Group</a> where I will be supervised by <a href="https://sites.google.com/site/dominicjw" target="_blank">Dominic Williamson</a> and <a href=" https://profiles.sydney.edu.au/stephen.bartlett" target="_blank">Stephen Bartlett</a>. I'm widely interested in topological phenomena, but I hope to focus on Topological Quantum Computing and Error Correction during grad school. 
+                        Hi! I'm Keshav. I will be starting a PhD in Physics at the University of Sydney's <a href="https://quantum.sydney.edu.au/research/quantum-theory-group/" target="_blank">Quantum Theory Group</a> where I will be supervised by <a href="https://sites.google.com/site/dominicjw" target="_blank">Dominic Williamson</a> and <a href="https://profiles.sydney.edu.au/stephen.bartlett" target="_blank">Stephen Bartlett</a>. I'm widely interested in topological phenomena, but I hope to focus on Topological Quantum Computing and Error Correction during grad school.
                     </p>
                     <p class="left-blurb">
                         Prior to this I completed a B.S. in Engineering Physics at UC berkeley, where I had the pleasure of working in <a href="https://physics.berkeley.edu/people/faculty/james-analytis" target="_blank">James Analytis'</a> and <a href="https://physics.berkeley.edu/people/faculty/joel-moore" target="_blank">Joel Moore</a>'s groups.
@@ -57,33 +52,8 @@
                     <p class="left-blurb"> Here are brief notes/summaries on some <a href="pages/literaturereview.html">papers I've read</a>. </p>
                 </div>
                 <img src="assets/linkedin-dp-1.jpg" alt="Keshav Deoskar" class="intro-photo">
-            </div> 
-
-
-            <div class="friends-section">
-                <button class="dropdown-toggle" id="friendsToggle">
-                    <span class="arrow">▶</span> Some notes/writings
-                </button>
-                <ul class="friends-list" id="friendsList">
-                    <li><a href="https://mehulnair.com/index.html" target="_blank">Mehul Nair</a></li>
-                </ul>
             </div>
 
-            <div class="friends-section">
-                <button class="dropdown-toggle" id="friendsToggle">
-                    <span class="arrow">▶</span> Some of my friends!
-                </button>
-                <ul class="friends-list" id="friendsList">
-                    <li><a href="https://mehulnair.com/index.html" target="_blank">Mehul Nair</a></li>
-                    <li><a href="https://ishaangupta04.github.io/" target="_blank">Ishaan Gupta</a></li>
-                    <li><a href="https://bryanyli.github.io/" target="_blank">Bryan Li</a></li>
-                    <li><a href="https://www.linkedin.com/in/nicole-klatt-a19b6925b/" target="_blank">Nicole Klatt</a></li>
-                    <li><a href="https://www.linkedin.com/in/jeshwanth-mohan-0345a2257/" target="_blank">Jeshwanth Mohan</a></li>
-                    <li><a href="https://aubrieta.github.io/" target="_blank">Dixie Kong</a></li>
-                    <li><a href="https://finnfrasergrathwol.com/" target="_blank">Finn Frasel Grathwol</a></li>
-                </ul>
-            </div>
-            
             <div class="social-links">
                 <a href="https://www.linkedin.com/in/keshav-balwant-deoskar-663576199/" target="_blank" title="LinkedIn">
                     <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
@@ -101,17 +71,47 @@
                     </svg>
                 </a>
             </div>
-          </div>
+        </div>
 
+        <!-- ===== Additional boxes ===== -->
+        <!-- TEMPLATE for a new box (copy, paste below, edit):
+        <section class="box">
+            <button class="dropdown-toggle"><span class="arrow">▶</span> Title</button>
+            <div class="dropdown-content">
+                <ul class="link-list">
+                    <li><a href="URL" target="_blank">Link text</a></li>
+                </ul>
+            </div>
+        </section>
+        -->
 
-        <div class="right-box">
+        <section class="box">
+            <button class="dropdown-toggle"><span class="arrow">▶</span> Short notes</button>
+            <div class="dropdown-content">
+                <ul class="link-list">
+                    <li><a href="https://mehulnair.com/index.html" target="_blank">Mehul Nair</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="box">
+            <button class="dropdown-toggle"><span class="arrow">▶</span> Friends</button>
+            <div class="dropdown-content">
+                <ul class="link-list">
+                    <li><a href="https://mehulnair.com/index.html" target="_blank">Mehul Nair</a></li>
+                    <li><a href="https://ishaangupta04.github.io/" target="_blank">Ishaan Gupta</a></li>
+                    <li><a href="https://bryanyli.github.io/" target="_blank">Bryan Li</a></li>
+                    <li><a href="https://www.linkedin.com/in/nicole-klatt-a19b6925b/" target="_blank">Nicole Klatt</a></li>
+                    <li><a href="https://www.linkedin.com/in/jeshwanth-mohan-0345a2257/" target="_blank">Jeshwanth Mohan</a></li>
+                    <li><a href="https://aubrieta.github.io/" target="_blank">Dixie Kong</a></li>
+                    <li><a href="https://finnfrasergrathwol.com/" target="_blank">Finn Frasel Grathwol</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Hidden for now (see .right-box in the CSS) -->
+        <div class="box right-box">
             <ul class="blog-list">
-                <!-- <li class="blog-item">
-                    <span class="tag tag-blog">TRIAL BLOG</span>
-                    <h2><a href="blogs/test_blog.html" target="_blank" rel="noopener noreferrer">Testing slider</a></h2>
-                    <p>Test</p>
-                    <p class="blog-date">In-progress</p>
-                </li> -->
                 <li class="blog-item">
                     <span class="tag tag-blog">BLOG</span>
                     <h2><a href="blogs/decoders.html">Decoders!</a></h2>
@@ -123,51 +123,9 @@
                     <h2><a href="https://drive.google.com/drive/folders/1ybKmuL67f6qdkXYz0LIWNblMY77AXQQQ?usp=sharing" target="_blank" rel="noopener noreferrer">A Brief Intro to Holographic Error Correction</a></h2>
                     <p>Physics/EECS/Chemistry C191 Final Project</p>
                     <p class="blog-date">May 20, 2025</p>
-                <!-- </li>
-                                <li class="blog-item">
-                    <span class="tag tag-project">PROJECT</span>
-                    <h2><a href="https://drive.google.com/file/d/1DJz0hwsjJW-O8yhLZsO3fApgL1jdb1zD/view?usp=sharing" target="_blank" rel="noopener noreferrer">A Brief Intro to Holographic Error Correction</a></h2>
-                    <p>Physics/EECS/Chemistry C191 Final Project</p>
-                    <p class="blog-date">May 20, 2025</p>
                 </li>
-                                <li class="blog-item">
-                    <span class="tag tag-project">PROJECT</span>
-                    <h2><a href="https://drive.google.com/file/d/1DJz0hwsjJW-O8yhLZsO3fApgL1jdb1zD/view?usp=sharing" target="_blank" rel="noopener noreferrer">A Brief Intro to Holographic Error Correction</a></h2>
-                    <p>Physics/EECS/Chemistry C191 Final Project</p>
-                    <p class="blog-date">May 20, 2025</p>
-                </li>
-                                <li class="blog-item">
-                    <span class="tag tag-project">PROJECT</span>
-                    <h2><a href="https://drive.google.com/file/d/1DJz0hwsjJW-O8yhLZsO3fApgL1jdb1zD/view?usp=sharing" target="_blank" rel="noopener noreferrer">A Brief Intro to Holographic Error Correction</a></h2>
-                    <p>Physics/EECS/Chemistry C191 Final Project</p>
-                    <p class="blog-date">May 20, 2025</p>
-                </li>
-                                <li class="blog-item">
-                    <span class="tag tag-project">PROJECT</span>
-                    <h2><a href="https://drive.google.com/file/d/1DJz0hwsjJW-O8yhLZsO3fApgL1jdb1zD/view?usp=sharing" target="_blank" rel="noopener noreferrer">A Brief Intro to Holographic Error Correction</a></h2>
-                    <p>Physics/EECS/Chemistry C191 Final Project</p>
-                    <p class="blog-date">May 20, 2025</p>
-                </li>
-                                <li class="blog-item">
-                    <span class="tag tag-project">PROJECT</span>
-                    <h2><a href="https://drive.google.com/file/d/1DJz0hwsjJW-O8yhLZsO3fApgL1jdb1zD/view?usp=sharing" target="_blank" rel="noopener noreferrer">A Brief Intro to Holographic Error Correction</a></h2>
-                    <p>Physics/EECS/Chemistry C191 Final Project</p>
-                    <p class="blog-date">May 20, 2025</p>
-                </li>
-                                <li class="blog-item">
-                    <span class="tag tag-project">PROJECT</span>
-                    <h2><a href="https://drive.google.com/file/d/1DJz0hwsjJW-O8yhLZsO3fApgL1jdb1zD/view?usp=sharing" target="_blank" rel="noopener noreferrer">A Brief Intro to Holographic Error Correction</a></h2>
-                    <p>Physics/EECS/Chemistry C191 Final Project</p>
-                    <p class="blog-date">May 20, 2025</p>
-                </li> -->
+            </ul>
         </div>
     </div>
-
-    <button id="layoutToggle" class="layout-toggle" title="Toggle layout" aria-label="Toggle stacked/side-by-side layout">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="8" height="18" rx="2"></rect>
-            <rect x="13" y="3" width="8" height="18" rx="2"></rect>
-        </svg>
-    </button>
 </body>
 </html>
