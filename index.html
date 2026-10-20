@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keshav Deoskar</title>
     <meta name="author" content="Keshav Deoskar">
-    <meta name="description" content="Official website of Keshav Deoskar. I will be starting a PhD in Physics at the University of Sydney's Quantum Theory Group, where I will be supervised by Dominic Williamson and Stephen Bartlett. I'm widely interested in topological phenomena, but I hope to focus on Topological Quantum Computing and Error Correction during grad school. Prior to this I completed a B.S. in Engineering Physics at UC Berkeley.">
+    <meta name="description" content="Official website of Keshav Deoskar. I'm a first year PhD in Physics at the University of Sydney's Quantum Theory Group, supervised by Dominic Williamson and Stephen Bartlett. I'm widely interested in topological phenomena, but I hope to focus on Topological Quantum Computing and Error Correction during grad school. Prior to this I completed a B.S. in Engineering Physics at UC Berkeley.">
     <!-- <link rel="stylesheet" href="css/styles-responsive.css"> -->
     <link rel="stylesheet" href="css/stylesresponsive.css">
 
@@ -35,11 +35,11 @@
     <meta name="google-site-verification" content="9t_I4K2mQXYbcDhzO7Y9VknsHSE9vAo-Vl9kmmYEJH4" />
   </head>
 <body>
-    <div class="container">
+    <main class="page">
 
-        <!-- Main box: intro + social links -->
-        <div class="box">
-            <h1>Keshav Deoskar</h1>
+        <!-- ===== Section 1: intro + social links ===== -->
+        <section class="section">
+            <h1 class="section-pill section-pill-lg">Keshav Deoskar</h1>
             <div class="intro">
                 <div class="intro-text">
                     <p class="left-blurb">
@@ -71,31 +71,34 @@
                     </svg>
                 </a>
             </div>
-        </div>
-
-        <!-- ===== Additional boxes ===== -->
-        <!-- TEMPLATE for a new box (copy, paste below, edit):
-        <section class="box">
-            <button class="dropdown-toggle"><span class="arrow">▶</span> Title</button>
-            <div class="dropdown-content">
-                <ul class="link-list">
-                    <li><a href="URL" target="_blank">Link text</a></li>
-                </ul>
-            </div>
-        </section>
-        -->
-
-        <section class="box">
-            <button class="dropdown-toggle"><span class="arrow">▶</span> Short notes</button>
-            <div class="dropdown-content">
-                <ul class="link-list">
-                    <li><a href="https://mehulnair.com/index.html" target="_blank">Mehul Nair</a></li>
-                </ul>
-            </div>
         </section>
 
-        <section class="box">
-            <button class="dropdown-toggle"><span class="arrow">▶</span> Friends</button>
+        <!-- ===== Section 2: Short notes ===== -->
+        <section class="section">
+            <h2 class="section-pill">Short notes</h2>
+            <ol class="notes-list">
+                <!-- TEMPLATE for a new note (numbering is automatic; tags are optional):
+                <li>
+                    <div>
+                        <a class="notes-title" href="URL" target="_blank">Note title</a>
+                        <div class="notes-tags">
+                            <span class="tag-pill">tag one</span>
+                            <span class="tag-pill">tag two</span>
+                        </div>
+                    </div>
+                </li>
+                -->
+                <li>
+                    <div>
+                        <a class="notes-title" href="" target="_blank">Mehul Nair</a>
+                    </div>
+                </li>
+            </ol>
+        </section>
+
+        <!-- ===== Section 3: Friends (dropdown) ===== -->
+        <section class="section">
+            <button class="dropdown-toggle section-pill"><span class="arrow">▶</span> Friends</button>
             <div class="dropdown-content">
                 <ul class="link-list">
                     <li><a href="https://mehulnair.com/index.html" target="_blank">Mehul Nair</a></li>
@@ -109,8 +112,10 @@
             </div>
         </section>
 
+        <!-- ===== Add more sections here (see the templates above) ===== -->
+
         <!-- Hidden for now (see .right-box in the CSS) -->
-        <div class="box right-box">
+        <section class="section right-box">
             <ul class="blog-list">
                 <li class="blog-item">
                     <span class="tag tag-blog">BLOG</span>
@@ -125,7 +130,7 @@
                     <p class="blog-date">May 20, 2025</p>
                 </li>
             </ul>
-        </div>
-    </div>
+        </section>
+    </main>
 </body>
 </html>

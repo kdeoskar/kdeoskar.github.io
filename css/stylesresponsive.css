@@ -15,27 +15,52 @@ p + p {
     margin-top: 8px;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    padding: 20px;
-    gap: 20px;
+/* Translucent line colour used for the rails and section dividers */
+:root {
+    --line: rgba(250, 248, 237, 0.25);
 }
 
-/* Every card on the page. Add class="box" to anything that should look like one. */
-.box {
-    width: 100%;
+/* Centered column; the two vertical lines make the content look "lifted" */
+.page {
     max-width: 90%;
+    min-height: 100vh;
     margin: 0 auto;
-    background-color: #44473c;
-    border: 2px solid #faf8ed;
-    border-radius: 20px;
-    padding: 30px;
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+}
+
+/* Each section of the page; a translucent line separates neighbours */
+.section {
+    padding: 36px 40px;
+}
+
+.section + .section {
+    border-top: 1px solid var(--line);
 }
 
 .right-box {
     display: none; /* hidden for now; remove this line to bring it back */
+}
+
+/* Bubbled section titles (same look as the tags on the literature review page) */
+.section-pill {
+    display: inline-block;
+    font-family: inherit;
+    font-size: 1.15em;
+    font-weight: 500;
+    line-height: 1.4;
+    padding: 4px 16px;
+    margin-bottom: 18px;
+    border-radius: 999px;
+    background-color: rgba(167, 115, 201, 0.2);
+    border: 1px solid rgba(167, 115, 201, 0.45);
+    color: #c9a0e8;
+    letter-spacing: 0.3px;
+}
+
+.section-pill-lg {
+    font-size: 2em;
+    padding: 6px 24px;
 }
 
 h1 {
@@ -106,26 +131,19 @@ h1 {
     text-decoration: underline;
 }
 
-/* Collapsible content inside a .box */
+/* Collapsible content inside a .section (toggle button also has .section-pill) */
 .dropdown-toggle {
-    background: none;
-    border: none;
-    color: #faf8ed;
-    font-size: 1.3em;
-    font-weight: 600;
-    cursor: pointer;
-    padding: 0;
-    width: 100%;
-    text-align: left;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 8px;
-    font-family: inherit;
-    transition: color 0.2s;
+    margin-bottom: 0;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
 }
 
 .dropdown-toggle:hover {
-    color: #a773c9;
+    background-color: rgba(167, 115, 201, 0.32);
+    border-color: rgba(167, 115, 201, 0.75);
 }
 
 .arrow {
@@ -146,7 +164,7 @@ h1 {
 
 .link-list {
     list-style: none;
-    padding: 8px 0 0 24px;
+    padding: 16px 0 0 8px;
 }
 
 .link-list li {
@@ -161,6 +179,68 @@ h1 {
 
 .link-list a:hover {
     opacity: 0.7;
+}
+
+/* Short notes: numbered list modelled on the literature review page */
+.notes-list {
+    list-style: none;
+    counter-reset: note;
+}
+
+.notes-list li {
+    counter-increment: note;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    border-bottom: 1px solid rgba(250, 248, 237, 0.08);
+    transition: background-color 0.18s;
+}
+
+.notes-list li::before {
+    content: counter(note) ".";
+    color: #a773c9;
+    font-weight: bold;
+    min-width: 28px;
+    padding-top: 1px;
+    flex-shrink: 0;
+}
+
+.notes-list li:hover {
+    background-color: rgba(250, 248, 237, 0.07);
+}
+
+.notes-title {
+    font-size: 1.05em;
+    line-height: 1.5;
+    color: #faf8ed;
+    text-decoration: none;
+}
+
+/* makes the whole row clickable */
+.notes-title::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+}
+
+.notes-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.tag-pill {
+    font-size: 0.72em;
+    padding: 2px 8px;
+    border-radius: 20px;
+    background-color: rgba(167, 115, 201, 0.2);
+    border: 1px solid rgba(167, 115, 201, 0.45);
+    color: #c9a0e8;
+    letter-spacing: 0.3px;
 }
 
 .blog-list {
@@ -474,13 +554,13 @@ body::-webkit-scrollbar-thumb:hover {
         max-width: 320px;
     }
 
-    .container {
-        padding: 12px;
+    .section {
+        padding: 24px 20px;
     }
 
-    .box {
-        max-width: 100%;
-        padding: 24px 20px;
+    .section-pill-lg {
+        font-size: 1.6em;
+        padding: 4px 18px;
     }
 
     h1 {
