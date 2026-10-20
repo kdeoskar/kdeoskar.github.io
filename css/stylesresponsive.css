@@ -25,7 +25,7 @@ p + p {
 
 .left-box {
     width: 100%;
-    max-width: 800px;
+    max-width: 90%;
     margin: 0 auto;
     background-color: #44473c;
     border: 2px solid #faf8ed;
@@ -93,6 +93,26 @@ h1 {
 .left-blurb a:hover {
     opacity: 0.7;
     text-decoration: underline;
+}
+
+/* Intro: blurb text with photo beside it */
+.intro {
+    display: flex;
+    align-items: flex-start;
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.intro-text {
+    flex: 1;
+}
+
+.intro-photo {
+    width: 280px;
+    flex-shrink: 0;
+    display: block;
+    border: 2px solid #faf8ed;
+    border-radius: 12px;
 }
 
 .photo-section {
@@ -529,6 +549,15 @@ body::-webkit-scrollbar-thumb:hover {
 
 /* Mobile responsive styles */
 @media (max-width: 768px) {
+    .intro {
+        flex-direction: column;
+    }
+
+    .intro-photo {
+        width: 100%;
+        max-width: 320px;
+    }
+
     body {
         overflow-y: auto;
         height: auto;
