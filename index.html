@@ -5,30 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Keshav Deoskar</title>
     <meta name="author" content="Keshav Deoskar">
-    <meta name="description" content="Official website of Keshav Deoskar. I'm a first year PhD in Physics at the University of Sydney's Quantum Theory Group, supervised by Dominic Williamson and Stephen Bartlett. I'm widely interested in topological phenomena, but I hope to focus on Topological Quantum Computing and Error Correction during grad school. Prior to this I completed a B.S. in Engineering Physics at UC Berkeley.">
+    <meta name="description" content="Official website of Keshav Deoskar. As of 2026, I am a first year Ph.D. in Physics at the University of Sydney's Quantum Theory Group, supervised by Dominic Williamson and Stephen Bartlett. I'm widely interested in topological phenomena, but I hope to focus on Topological Quantum Computing and Error Correction during grad school. Prior to this I completed a B.S. in Engineering Physics at UC Berkeley.">
     <!-- <link rel="stylesheet" href="css/styles-responsive.css"> -->
     <link rel="stylesheet" href="css/stylesresponsive.css">
 
     <script>
-        // Every .dropdown-toggle opens/closes the .dropdown-content right after it.
-        // To start a box expanded, add the class "show" to its .dropdown-content.
+        // Each .toggle-button shows/hides the .toggle-content right after it.
+        // To start a section expanded, add the class "show" to its .toggle-content.
         document.addEventListener('DOMContentLoaded', function () {
-            document.querySelectorAll('.dropdown-toggle').forEach(function (toggle) {
-                const content = toggle.nextElementSibling;
-                const arrow = toggle.querySelector('.arrow');
-
-                function sync() {
-                    const open = content.classList.contains('show');
-                    content.style.maxHeight = open ? content.scrollHeight + 'px' : null;
-                    arrow.classList.toggle('rotated', open);
-                }
-
-                toggle.addEventListener('click', function () {
-                    content.classList.toggle('show');
-                    sync();
+            document.querySelectorAll('.toggle-button').forEach(function (button) {
+                const content = button.nextElementSibling;
+                button.setAttribute('aria-expanded', content.classList.contains('show'));
+                button.addEventListener('click', function () {
+                    const open = content.classList.toggle('show');
+                    button.setAttribute('aria-expanded', open);
                 });
-                window.addEventListener('resize', sync);
-                sync();
             });
         });
     </script>
@@ -49,33 +40,45 @@
                         Prior to this I completed a B.S. in Engineering Physics at UC berkeley, where I had the pleasure of working in <a href="https://physics.berkeley.edu/people/faculty/james-analytis" target="_blank">James Analytis'</a> and <a href="https://physics.berkeley.edu/people/faculty/joel-moore" target="_blank">Joel Moore</a>'s groups.
                     </p>
 
+                    <p class="left-blurb">
+                        <a href="assets/cv.pdf" target="_blank" class="cv-link">
+                            <svg class="inline-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                                <polyline points="14 2 14 8 20 8"/>
+                                <line x1="16" y1="13" x2="8" y2="13"/>
+                                <line x1="16" y1="17" x2="8" y2="17"/>
+                                <line x1="10" y1="9" x2="8" y2="9"/>
+                            </svg>
+                            Here is my CV.
+                        </a>
+                    </p>
                     <p class="left-blurb"> Here are brief notes/summaries on some <a href="pages/literaturereview.html">papers I've read</a>. </p>
+
+                    <div class="social-links">
+                        <a href="https://www.linkedin.com/in/keshav-balwant-deoskar-663576199/" target="_blank" title="LinkedIn">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </a>
+                        <a href="https://github.com/kdeoskar" target="_blank" title="GitHub">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                            </svg>
+                        </a>
+                        <a href="mailto:kdeoskar@berkeley.edu" title="Email">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/>
+                            </svg>
+                        </a>
+                    </div>
                 </div>
                 <img src="assets/linkedin-dp-1.jpg" alt="Keshav Deoskar" class="intro-photo">
-            </div>
-
-            <div class="social-links">
-                <a href="https://www.linkedin.com/in/keshav-balwant-deoskar-663576199/" target="_blank" title="LinkedIn">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
-                    </svg>
-                </a>
-                <a href="https://github.com/kdeoskar" target="_blank" title="GitHub">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                </a>
-                <a href="mailto:kdeoskar@berkeley.edu" title="Email">
-                    <svg width="32" height="32" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/>
-                    </svg>
-                </a>
             </div>
         </section>
 
         <!-- ===== Section 2: Short notes ===== -->
         <section class="section">
-            <h2 class="section-pill">Short notes</h2>
+            <h2 class="section-pill">Notes</h2>
             <ol class="notes-list">
                 <!-- TEMPLATE for a new note (numbering is automatic; tags are optional):
                 <li>
@@ -90,17 +93,17 @@
                 -->
                 <li>
                     <div>
-                        <a class="notes-title" href="" target="_blank">Mehul Nair</a>
+                        <a class="notes-title" href="notes/julio_talk_notes.pdf" target="_blank">"New Magic Tricks for Fault-Tolerant Quantum Computation", Julio Magdalena de la Fuente (USYD Quantum Fridays, October 16 2026)</a>
                     </div>
                 </li>
             </ol>
         </section>
 
-        <!-- ===== Section 3: Friends (dropdown) ===== -->
+        <!-- ===== Section 3: Friends (button shows/hides the names) ===== -->
         <section class="section">
-            <button class="dropdown-toggle section-pill"><span class="arrow">▶</span> Friends</button>
-            <div class="dropdown-content">
-                <ul class="link-list">
+            <button class="toggle-button section-pill" aria-expanded="false">Friends</button>
+            <div class="toggle-content">
+                <ul class="inline-list">
                     <li><a href="https://mehulnair.com/index.html" target="_blank">Mehul Nair</a></li>
                     <li><a href="https://ishaangupta04.github.io/" target="_blank">Ishaan Gupta</a></li>
                     <li><a href="https://bryanyli.github.io/" target="_blank">Bryan Li</a></li>
