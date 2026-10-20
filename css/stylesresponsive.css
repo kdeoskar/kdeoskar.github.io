@@ -24,7 +24,9 @@ p + p {
 }
 
 .left-box {
-    width: 30%;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
     background-color: #44473c;
     border: 2px solid #faf8ed;
     border-radius: 20px;
@@ -35,6 +37,7 @@ p + p {
 }
 
 .right-box {
+    display: none; /* hidden for now; remove this line to bring it back */
     width: 70%;
     background-color: #44473c;
     border: 2px solid #faf8ed;
@@ -483,7 +486,7 @@ body::-webkit-scrollbar-thumb:hover {
     border-radius: 12px;
     color: #faf8ed;
     cursor: pointer;
-    display: flex;
+    display: none; /* hidden while right-box is hidden; change to flex to restore */
     align-items: center;
     justify-content: center;
     z-index: 1000;
