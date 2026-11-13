@@ -80,16 +80,29 @@
         <section class="section">
             <h2 class="section-pill">Notes</h2>
             <ol class="notes-list">
-                <!-- TEMPLATE for a new note (numbering is automatic; tags are optional):
+                <!-- TEMPLATE A: one link (the whole row is clickable):
                 <li>
                     <div>
                         <a class="notes-title" href="URL" target="_blank">Note title</a>
+                    </div>
+                </li>
+
+                TEMPLATE B: several links (title is plain text; add as many link-pills as you like):
+                <li>
+                    <div>
+                        <span class="notes-title">Note title</span>
+                        <div class="notes-links">
+                            <a class="link-pill" href="URL1" target="_blank">Report</a>
+                            <a class="link-pill" href="URL2" target="_blank">Poster</a>
+                        </div>
+                    </div>
+                </li>
+
+                Tags are optional in either template; put this inside the <div>:
                         <div class="notes-tags">
                             <span class="tag-pill">tag one</span>
                             <span class="tag-pill">tag two</span>
                         </div>
-                    </div>
-                </li>
                 -->
                 <li>
                     <div>
@@ -99,17 +112,40 @@
 
                 <li>
                     <div>
-                        <a class="notes-title" href="notes/c191_Final_Project_report.pdf" target="_blank">A Brief Introduction to Holographic Error Correction (May 2025)</a>
+                        <span class="notes-title">A Brief Introduction to Holographic Error Correction (May 2025)</span>
+                        <div class="notes-links">
+                            <a class="link-pill" href="notes/c191_Final_Project_report.pdf" target="_blank">Report</a>
+                            <!-- TODO: point this at your poster file -->
+                            <a class="link-pill" href="notes/c191_Poster.pdf" target="_blank">Poster</a>
+                        </div>
                     </div>
                 </li>
-                
+
             </ol>
         </section>
 
-        <!-- ===== Section 3: Friends (button shows/hides the names) ===== -->
+        <!-- ===== Section 3: Presentations (same format as Notes; see the templates there) ===== -->
         <section class="section">
-            <button class="toggle-button section-pill" aria-expanded="false">Friends</button>
-            <div class="toggle-content">
+            <h2 class="section-pill">Presentations</h2>
+            <ol class="notes-list">
+                <!-- Placeholder: replace with your first presentation -->
+                <li>
+                    <div>
+                        <span class="notes-title">Benchmarking New Magic Tricks (PsiQ-USYD FT Meeting 2026)</span>
+                        <div class="notes-links">
+                            <a class="link-pill" href="presentations/PsiQ_USYD_Lightning_Talk.pdf" target="_blank">Slides</a>
+                            <!-- <a class="link-pill" href="URL" target="_blank">Video</a> -->
+                        </div>
+                    </div>
+                </li>
+
+            </ol>
+        </section>
+
+        <!-- ===== Section 4: Friends (button shows/hides the names; open by default) ===== -->
+        <section class="section">
+            <button class="toggle-button section-pill" aria-expanded="true">Friends</button>
+            <div class="toggle-content show">
                 <ul class="inline-list">
                     <li><a href="https://mehulnair.com/index.html" target="_blank">Mehul Nair</a></li>
                     <li><a href="https://ishaangupta04.github.io/" target="_blank">Ishaan Gupta</a></li>

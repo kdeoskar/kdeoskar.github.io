@@ -227,11 +227,37 @@ h1 {
     text-decoration: none;
 }
 
-/* makes the whole row clickable */
-.notes-title::after {
+/* makes the whole row clickable (only when the title itself is a link) */
+a.notes-title::after {
     content: '';
     position: absolute;
     inset: 0;
+}
+
+/* Several separate links under one item (e.g. Report / Poster) */
+.notes-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.link-pill {
+    position: relative; /* sits above the row overlay if the title is also a link */
+    z-index: 1;
+    font-size: 0.85em;
+    padding: 2px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(167, 115, 201, 0.45);
+    color: #c9a0e8;
+    text-decoration: none;
+    letter-spacing: 0.3px;
+    transition: background-color 0.18s, border-color 0.18s;
+}
+
+.link-pill:hover {
+    background-color: rgba(167, 115, 201, 0.25);
+    border-color: rgba(167, 115, 201, 0.85);
 }
 
 .notes-tags {
